@@ -13,6 +13,7 @@ app.event('message', async({ event, client, logger }) => {
         var new_text;
         var new_parent_message;
 
+
         if (event.thread_ts) {
 
             try {
