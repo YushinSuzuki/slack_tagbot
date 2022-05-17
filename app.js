@@ -32,9 +32,8 @@ app.event('message', async({ event, client, logger }) => {
                 console.log('last_mes = ', last_mes);
 
                 const start_idx = replies.messages[0].text.indexOf("<#")
-                const end_idx = replies.messages[0].text.indexOf("|")
 
-                ch_id = replies.messages[0].text.substr(start_idx + 2, end_idx - 2);
+                ch_id = replies.messages[0].text.substr(start_idx + 2, 10);
 
                 displayName = await app.client.users.profile.get({
                     token: client.token,
@@ -111,12 +110,11 @@ app.message('#', async({ message, event, client, logger }) => {
     try {
 
         const start_idx = message.text.indexOf("<#")
-        const end_idx = message.text.indexOf("|")
 
         console.log("start_idx == ", start_idx);
         console.log("end_idx == ", end_idx);
 
-        const ch_id = message.text.substr(start_idx + 2, end_idx - 2);
+        const ch_id = message.text.substr(start_idx + 2, 10);
 
         console.log("ch_id == ", ch_id);
 
