@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/YushinSuzuki/slack_tagbot/issues"
   },
-  "homepage": "https://github.com/YushinSuzuki/slack_tagbot#readme"
+  "homepage": "https://github.com/YushinSuzuki/slack_tagbot#readme",
+  "dependencies": {
+    "@slack/bolt": "^3.11.1"
+  }
 }
