@@ -110,20 +110,15 @@ app.message('#', async({ message, event, client, logger }) => {
     try {
 
         const start_idx = message.text.indexOf("<#")
+        const end_idx = message.text.indexOf(">")
 
         const ch_id = message.text.substr(start_idx + 2, 11);
+        const replace_txt = message.text.substr(start_idx, end_idx);
 
-        console.log("ch_id == ", ch_id);
-
-        const displayName = await app.client.users.profile.get({
-            token: client.token,
-            user: message.user
-        });
-
-        const text_idx = message.text.indexOf(">")
+        console.log("replace_txt == ", replace_txt);
 
         const event_ts = message.ts.replace('.', '');
-        const origin_text = message.text.substr(text_idx + 2);
+        const origin_text = message.text.replace(replace_txt, "");
 
         // console.log("origin_text == ", origin_text);
 
@@ -134,6 +129,11 @@ app.message('#', async({ message, event, client, logger }) => {
         } else {
             new_text = `<https://test.slack.com/archives/${message.channel}/p${event_ts}|${origin_text}> `
         }
+
+        const displayName = await app.client.users.profile.get({
+            token: client.token,
+            user: message.user
+        });
 
         const result = await client.chat.postMessage({
             token: client.token,
