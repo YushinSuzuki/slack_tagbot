@@ -110,7 +110,7 @@ app.message('#', async({ message, event, client, logger }) => {
         console.log("start_idx == ", start_idx);
         console.log("end_idx == ", end_idx);
 
-        const ch_id = message.text.substr(start_idx + 2, end_idx);
+        const ch_id = message.text.substr(start_idx + 2, end_idx - 1);
 
         console.log("ch_id == ", ch_id);
 
