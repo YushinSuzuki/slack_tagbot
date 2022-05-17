@@ -13,10 +13,13 @@ app.event('message', async({ event, client, logger }) => {
         var new_text;
         var new_parent_message;
 
-        console.log('event ', event);
-
-
         if (event.thread_ts) {
+
+            console.log('client.token = ', client.token);
+
+            console.log('event.channel = ', event.channel);
+
+            console.log('event.thread_ts = ', event.thread_ts);
 
             try {
                 const replies = await client.conversations.replies({
