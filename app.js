@@ -33,7 +33,7 @@ app.event('message', async({ event, client, logger }) => {
 
                 const start_idx = replies.messages[0].text.indexOf("<#")
 
-                ch_id = replies.messages[0].text.substr(start_idx + 2, 10);
+                ch_id = replies.messages[0].text.substr(start_idx + 2, 11);
 
                 displayName = await app.client.users.profile.get({
                     token: client.token,
@@ -111,7 +111,7 @@ app.message('#', async({ message, event, client, logger }) => {
 
         const start_idx = message.text.indexOf("<#")
 
-        const ch_id = message.text.substr(start_idx + 2, 10);
+        const ch_id = message.text.substr(start_idx + 2, 11);
 
         console.log("ch_id == ", ch_id);
 
