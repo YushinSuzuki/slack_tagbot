@@ -32,8 +32,8 @@ app.event('message', async({ event, client, logger }) => {
                     }
                 }
 
-                const start_idx = message.text.indexOf("<#")
-                const end_idx = message.text.indexOf("|")
+                const start_idx = replies.message.text.indexOf("<#")
+                const end_idx = replies.message.text.indexOf("|")
 
                 ch_id = replies.messages[0].text.substr(start_idx + 2, end_idx - 2);
 
@@ -45,7 +45,7 @@ app.event('message', async({ event, client, logger }) => {
                 const ts = last_mes.ts.replace('.', '');
                 const thread_ts = last_mes.thread_ts;
                 var origin_text;
-                const text_idx = message.text.indexOf(">")
+                const text_idx = last_mes.text.indexOf(">")
 
                 if (last_mes.text.includes("#")) {
                     origin_text = last_mes.text.substr(text_idx + 2);
