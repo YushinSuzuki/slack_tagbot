@@ -32,7 +32,10 @@ app.event('message', async({ event, client, logger }) => {
                     }
                 }
 
-                ch_id = replies.messages[0].text.substr(2, 11);
+                const start_idx = message.text.indexOf("<#")
+                const end_idx = message.text.indexOf("|")
+
+                ch_id = replies.messages[0].text.substr(start_idx + 2, end_idx - 2);
 
                 displayName = await app.client.users.profile.get({
                     token: client.token,
@@ -42,21 +45,22 @@ app.event('message', async({ event, client, logger }) => {
                 const ts = last_mes.ts.replace('.', '');
                 const thread_ts = last_mes.thread_ts;
                 var origin_text;
+                const text_idx = message.text.indexOf(">")
 
                 if (last_mes.text.includes("#")) {
-                    origin_text = last_mes.text.substr(15);
+                    origin_text = last_mes.text.substr(text_idx + 2);
                 } else {
                     origin_text = last_mes.text;
                 }
 
-                new_text = `<https://ssod-workspace.slack.com/archives/${event_channell}/p${ts}?thread_ts=${thread_ts}&cid=${event_channell}|${origin_text}> `
+                new_text = `<https://test.slack.com/archives/${event_channell}/p${ts}?thread_ts=${thread_ts}&cid=${event_channell}|${origin_text}> `
 
                 var parent_messages;
                 new_parent_message;
                 const parent_origin_text = replies.messages[0].text.substr(15);
                 const parent_ts = replies.messages[0].ts.replace('.', '');
 
-                const parent_text = `<https://ssod-workspace.slack.com/archives/${event_channell}/p${parent_ts}|${parent_origin_text}> `
+                const parent_text = `<https://test.slack.com/archives/${event_channell}/p${parent_ts}|${parent_origin_text}> `
 
                 try {
                     parent_messages = await client.conversations.history({
@@ -102,17 +106,19 @@ app.event('message', async({ event, client, logger }) => {
 
 app.message('#', async({ message, event, client, logger }) => {
     try {
-        console.log("message == ", message);
+        console.log("client == ", client);
+        console.log("logger == ", logger);
+
 
         const start_idx = message.text.indexOf("<#")
         const end_idx = message.text.indexOf("|")
 
-        console.log("start_idx == ", start_idx);
-        console.log("end_idx == ", end_idx);
+        // console.log("start_idx == ", start_idx);
+        // console.log("end_idx == ", end_idx);
 
         const ch_id = message.text.substr(start_idx + 2, end_idx - 2);
 
-        console.log("ch_id == ", ch_id);
+        // console.log("ch_id == ", ch_id);
 
         const displayName = await app.client.users.profile.get({
             token: client.token,
@@ -124,14 +130,14 @@ app.message('#', async({ message, event, client, logger }) => {
         const event_ts = message.ts.replace('.', '');
         const origin_text = message.text.substr(text_idx + 2);
 
-        console.log("origin_text == ", origin_text);
+        // console.log("origin_text == ", origin_text);
 
         var new_text;
 
         if (message.thread_ts) {
-            new_text = `<https://ssod-workspace.slack.com/archives/${message.channel}/p${event_ts}?thread_ts=${message.thread_ts}&cid=${message.channel}|${origin_text}> `
+            new_text = `<https://test.slack.com/archives/${message.channel}/p${event_ts}?thread_ts=${message.thread_ts}&cid=${message.channel}|${origin_text}> `
         } else {
-            new_text = `<https://ssod-workspace.slack.com/archives/${message.channel}/p${event_ts}|${origin_text}> `
+            new_text = `<https://test.slack.com/archives/${message.channel}/p${event_ts}|${origin_text}> `
         }
 
         const result = await client.chat.postMessage({
