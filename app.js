@@ -14,13 +14,6 @@ app.event('message', async({ event, client, logger }) => {
         var new_parent_message;
 
         if (event.thread_ts) {
-
-            console.log('client.token = ', client.token);
-
-            console.log('event.channel = ', event.channel);
-
-            console.log('event.thread_ts = ', event.thread_ts);
-
             try {
                 const replies = await client.conversations.replies({
                     token: client.token,
@@ -36,7 +29,7 @@ app.event('message', async({ event, client, logger }) => {
                         last_mes = replies.messages[idx];
                     }
                 }
-                console.log('replies = ', replies);
+                console.log('last_mes = ', last_mes);
 
                 const start_idx = replies.messages[0].text.indexOf("<#")
                 const end_idx = replies.messages[0].text.indexOf("|")
@@ -75,6 +68,8 @@ app.event('message', async({ event, client, logger }) => {
                     });
 
                     console.log('parent_messages = ', parent_messages);
+
+                    console.log('parent_text = ', parent_text);
 
                     for (const idx in parent_messages.messages) {
                         if (parent_messages.messages[idx].text == parent_text) {
