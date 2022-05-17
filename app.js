@@ -58,7 +58,7 @@ app.event('message', async({ event, client, logger }) => {
                 new_parent_message;
 
                 const text_idx2 = last_mes.text.indexOf(">")
-                const parent_origin_text = replies.messages[0].text.substr(text_idx + 2);
+                const parent_origin_text = replies.messages[0].text.substr(text_idx2 + 2);
                 const parent_ts = replies.messages[0].ts.replace('.', '');
 
                 const parent_text = `<https://test.slack.com/archives/${event_channell}/p${parent_ts}|${parent_origin_text}> `
