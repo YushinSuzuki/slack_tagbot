@@ -38,8 +38,8 @@ app.event('message', async({ event, client, logger }) => {
                 }
                 console.log('replies = ', replies);
 
-                const start_idx = replies.message[0].text.indexOf("<#")
-                const end_idx = replies.message[0].text.indexOf("|")
+                const start_idx = replies.messages[0].text.indexOf("<#")
+                const end_idx = replies.messages[0].text.indexOf("|")
 
                 ch_id = replies.messages[0].text.substr(start_idx + 2, end_idx - 2);
 
