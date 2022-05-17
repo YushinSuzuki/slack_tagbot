@@ -103,12 +103,16 @@ app.event('message', async({ event, client, logger }) => {
 app.message('#', async({ message, event, client, logger }) => {
     try {
         console.error("message == ", message);
-        console.error("event == ", event);
 
         const start_idx = message.text.indexOf("<#")
         const end_idx = message.text.indexOf(">")
 
+        console.error("start_idx == ", start_idx);
+        console.error("end_idx == ", end_idx);
+
         const ch_id = message.text.substr(start_idx, end_idx);
+
+        console.error("ch_id == ", ch_id);
 
         const displayName = await app.client.users.profile.get({
             token: client.token,
