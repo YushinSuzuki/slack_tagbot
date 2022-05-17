@@ -110,7 +110,7 @@ app.message('#', async({ message, event, client, logger }) => {
         console.log("start_idx == ", start_idx);
         console.log("end_idx == ", end_idx);
 
-        const ch_id = message.text.substr(start_idx + 2, end_idx - 1);
+        const ch_id = message.text.substr(start_idx + 2, end_idx - 2);
 
         console.log("ch_id == ", ch_id);
 
@@ -122,7 +122,7 @@ app.message('#', async({ message, event, client, logger }) => {
         const text_idx = message.text.indexOf(">")
 
         const event_ts = message.ts.replace('.', '');
-        const origin_text = message.text.substr(text_idx + 1);
+        const origin_text = message.text.substr(text_idx + 2);
 
         console.log("origin_text == ", origin_text);
 
