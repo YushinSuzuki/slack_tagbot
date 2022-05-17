@@ -105,8 +105,10 @@ app.message('#', async({ message, event, client, logger }) => {
         console.error("message == ", message);
         console.error("event == ", event);
 
+        const start_idx = message.text.indexOf("<#")
+        const end_idx = message.text.indexOf(">")
 
-        const ch_id = message.text.substr(2, 11);
+        const ch_id = message.text.substr(start_idx, end_idx);
 
         const displayName = await app.client.users.profile.get({
             token: client.token,
@@ -114,7 +116,7 @@ app.message('#', async({ message, event, client, logger }) => {
         });
 
         const event_ts = message.ts.replace('.', '');
-        const origin_text = message.text.substr(15);
+        const origin_text = message.text.substr(end_idx + 1);
         var new_text;
 
         if (message.thread_ts) {
