@@ -111,9 +111,6 @@ app.message('#', async({ message, event, client, logger }) => {
 
         const start_idx = message.text.indexOf("<#")
 
-        console.log("start_idx == ", start_idx);
-        console.log("end_idx == ", end_idx);
-
         const ch_id = message.text.substr(start_idx + 2, 10);
 
         console.log("ch_id == ", ch_id);
