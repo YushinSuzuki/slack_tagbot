@@ -116,8 +116,15 @@ app.message('#', async({ message, event, client, logger }) => {
         const result1 = regex1.exec(message.text); // または text.match( rg );
         const result2 = regex2.exec(message.text); // または text.match( rg );
 
-        console.log(result1);
-        console.log(result2);
+        var i = 0;
+        while (result !== null) {
+            console.log("result1 = ", result1[i]);
+            console.log("result2 = ", result1[2]);
+
+            console.log('lastIndex=' + regexp.lastIndex);
+            i++;
+            // result = regexp.exec(str);
+        }
 
 
         const start_idx = message.text.indexOf("<#")
