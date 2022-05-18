@@ -116,22 +116,14 @@ app.message('#', async({ message, event, client, logger }) => {
         const result1 = regexp1.exec(message.text); // または text.match( rg );
         const result2 = regexp2.exec(message.text); // または text.match( rg );
 
-        var i = 0;
         while (result1 !== null) {
             console.log("result1 = ", result1[i]);
-
-            console.log('lastIndex=' + regexp1.lastIndex);
-            i++;
-            result1 = regexp1.exec(message.text);
+            console.log('lastIndex1 =' + regexp1.lastIndex);
         }
 
-        var p = 0;
         while (result2 !== null) {
             console.log("result2 = ", result2[p]);
-
-            console.log('lastIndex=' + regexp2.lastIndex);
-            p++;
-            result2 = regexp2.exec(message.text);
+            console.log('lastIndex2 =' + regexp2.lastIndex);
         }
 
 
