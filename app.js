@@ -108,72 +108,70 @@ app.event('message', async({ event, client, logger }) => {
 
 app.message('#', async({ message, event, client, logger }) => {
     try {
-        const regexp1 = /<#/g;
-        const regexp2 = />/;
-        let array1 = [];
-        let array2 = [];
-        let result1;
+        const regexp_start = /<#/g,
+            regexp_middle = />/g;
+        regexp_end = />/g;
+        let start_idxs = [],
+            middle_idxs = [],
+            end_idxs = [];
+        let start_idx = [],
+            middle_idx = [],
+            end_idx = [];
 
-        while ((result1 = regexp1.exec(message.text)) !== null) {
-            console.log(`Found ${result1[0]}. Next starts at ${regexp1.lastIndex}.`);
-            array1.push(result1);
-            // expected output: "Found foo. Next starts at 9."
-            // expected output: "Found foo. Next starts at 19."
+        while ((start_idx = regexp_start.exec(message.text)) !== null) {
+            start_idxs.push(start_idx);
         }
 
-        console.log("array1: ", array1);
-
-
-        // for (let i = 0; array1.length > i; i++) {
-
-        //     console.log("value: ", array1[i].valueOf());
-
-        //     console.log("index: ", array1[i].index, );
-
-        // }
-
-        // for (let i = 0; array2.length > i; i++) {
-
-        //     console.log("value: ", array2[i].valueOf());
-
-        //     console.log("index: ", array2[i].index, );
-
-        // }
-
-
-        const start_idx = message.text.indexOf("<#")
-        const end_idx = message.text.indexOf(">")
-
-        const ch_id = message.text.substr(start_idx + 2, 11);
-        const replace_txt = message.text.substr(start_idx, end_idx - start_idx + 1);
-
-        console.log("replace_txt == ", replace_txt);
-
-        const event_ts = message.ts.replace('.', '');
-        const origin_text = message.text.replace(replace_txt, "");
-
-        // console.log("origin_text == ", origin_text);
-
-        var new_text;
-
-        if (message.thread_ts) {
-            new_text = `<https://test.slack.com/archives/${message.channel}/p${event_ts}?thread_ts=${message.thread_ts}&cid=${message.channel}|${origin_text}> `
-        } else {
-            new_text = `<https://test.slack.com/archives/${message.channel}/p${event_ts}|${origin_text}> `
+        while ((middle_idx = regexp_middle.exec(message.text)) !== null) {
+            middle_idxs.push(middle_idx);
         }
 
-        const displayName = await app.client.users.profile.get({
-            token: client.token,
-            user: message.user
-        });
+        while ((end_idx = regexp_end.exec(message.text)) !== null) {
+            end_idxs.push(end_idx);
+        }
 
-        const result = await client.chat.postMessage({
-            token: client.token,
-            username: displayName.profile.display_name,
-            channel: ch_id,
-            text: new_text,
-            icon_url: displayName.profile.image_original
-        });
+        console.log("start_idxs: ", start_idxs);
+        console.log("middle_idxs: ", middle_idxs);
+        console.log("end_idxs: ", end_idxs);
+
+        for (const idx in start_idxs) {
+
+            const ch_id = message.text.substr(start_idxs[idx] + 2, 11);
+            const replaced_txt = message.text.substr(start_idxs[idx], end_idxs[idx] - start_idxs[idx] + 1);
+            const replacing_txt = message.text.substr(middle_idxs[idx], end_idxs[idx] - middle_idxs[idx] + 1);
+
+            console.log("replace_txt == ", replaced_txt);
+            console.log("replacing_txt == ", replacing_txt);
+
+
+            const event_ts = message.ts.replace('.', '');
+            const origin_text = message.text.replace(replace_txt, replacing_txt);
+
+            // console.log("origin_text == ", origin_text);
+
+            var new_text;
+
+            if (message.thread_ts) {
+                new_text = `<https://test.slack.com/archives/${message.channel}/p${event_ts}?thread_ts=${message.thread_ts}&cid=${message.channel}|${origin_text}> `
+            } else {
+                new_text = `<https://test.slack.com/archives/${message.channel}/p${event_ts}|${origin_text}> `
+            }
+
+            const displayName = await app.client.users.profile.get({
+                token: client.token,
+                user: message.user
+            });
+
+            const result = await client.chat.postMessage({
+                token: client.token,
+                username: displayName.profile.display_name,
+                channel: ch_id,
+                text: new_text,
+                icon_url: displayName.profile.image_original
+            });
+        }
+
+
         logger.info('result = ', result);
     } catch (error) {
         logger.error('error = ', error);
