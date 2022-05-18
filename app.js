@@ -109,22 +109,15 @@ app.event('message', async({ event, client, logger }) => {
 app.message('#', async({ message, event, client, logger }) => {
     try {
         const regexp_start = /<#/g,
-            regexp_middle = /|/g,
             regexp_end = />/g;
         let start_idxs = [],
-            middle_idxs = [],
             end_idxs = [];
         let start_idx = [],
-            middle_idx = [],
             end_idx = [];
 
         while ((start_idx = regexp_start.exec(message.text)) !== null) {
             start_idxs.push(start_idx);
         }
-
-        // while ((middle_idx = regexp_middle.exec(message.text)) !== null) {
-        //     middle_idxs.push(middle_idx);
-        // }
 
         while ((end_idx = regexp_end.exec(message.text)) !== null) {
             end_idxs.push(end_idx);
@@ -140,7 +133,7 @@ app.message('#', async({ message, event, client, logger }) => {
             console.log("ch_id == ", ch_id);
 
             const replaced_txt = message.text.substr(start_idxs[idx], end_idxs[idx] - start_idxs[idx] + 1);
-            const replacing_txt = message.text.substr(middle_idxs[idx], end_idxs[idx] - middle_idxs[idx] + 1);
+            const replacing_txt = message.text.substr(start_idxs[idx] + 13, end_idxs[idx] - 1);
 
             console.log("replace_txt == ", replaced_txt);
             console.log("replacing_txt == ", replacing_txt);
