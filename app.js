@@ -107,67 +107,66 @@ app.event('message', async({ event, client, logger }) => {
 });
 
 app.message('#', async({ message, event, client, logger }) => {
-    try {
-        const regex1 = RegExp('<#', 'g');
-        const regex2 = RegExp('>', 'g');
-        let array1;
-        let array2;
+            try {
+                const regex1 = RegExp('<#', 'g');
+                const regex2 = RegExp('>', 'g');
+                let array1;
+                let array2;
 
-        while ((array1 = regex1.exec(message.text.)) !== null) {
-            console.log(`Found ${array1[0]}. Next starts at ${regex1.index}.`);
-        }
+                while ((array1 = regex1.exec(message.text) !== null) {
+                        console.log(`Found ${array1[0]}. Next starts at ${regex1.index}.`);
+                    }
 
-        while ((array2 = regex2.exec(message.text.)) !== null) {
-            console.log(`Found ${array2[0]}. Next starts at ${regex2.index}.`);
-        }
+                    while ((array2 = regex2.exec(message.text) !== null) {
+                            console.log(`Found ${array2[0]}. Next starts at ${regex2.index}.`);
+                        }
 
-        console.log(array1);
-        console.log(array2);
-
-
-        const start_idx = message.text.indexOf("<#")
-        const end_idx = message.text.indexOf(">")
-
-        const ch_id = message.text.substr(start_idx + 2, 11);
-        const replace_txt = message.text.substr(start_idx, end_idx - start_idx + 1);
-
-        console.log("replace_txt == ", replace_txt);
-
-        const event_ts = message.ts.replace('.', '');
-        const origin_text = message.text.replace(replace_txt, "");
-
-        // console.log("origin_text == ", origin_text);
-
-        var new_text;
-
-        if (message.thread_ts) {
-            new_text = `<https://test.slack.com/archives/${message.channel}/p${event_ts}?thread_ts=${message.thread_ts}&cid=${message.channel}|${origin_text}> `
-        } else {
-            new_text = `<https://test.slack.com/archives/${message.channel}/p${event_ts}|${origin_text}> `
-        }
-
-        const displayName = await app.client.users.profile.get({
-            token: client.token,
-            user: message.user
-        });
-
-        const result = await client.chat.postMessage({
-            token: client.token,
-            username: displayName.profile.display_name,
-            channel: ch_id,
-            text: new_text,
-            icon_url: displayName.profile.image_original
-        });
-        logger.info('result = ', result);
-    } catch (error) {
-        logger.error('error = ', error);
-    }
-});
+                        console.log(array1); console.log(array2);
 
 
-(async() => {
-    // Start your app
-    await app.start(process.env.PORT || 3000);
+                        const start_idx = message.text.indexOf("<#")
+                        const end_idx = message.text.indexOf(">")
 
-    console.log('⚡️ Bolt app is running!');
-})();
+                        const ch_id = message.text.substr(start_idx + 2, 11);
+                        const replace_txt = message.text.substr(start_idx, end_idx - start_idx + 1);
+
+                        console.log("replace_txt == ", replace_txt);
+
+                        const event_ts = message.ts.replace('.', '');
+                        const origin_text = message.text.replace(replace_txt, "");
+
+                        // console.log("origin_text == ", origin_text);
+
+                        var new_text;
+
+                        if (message.thread_ts) {
+                            new_text = `<https://test.slack.com/archives/${message.channel}/p${event_ts}?thread_ts=${message.thread_ts}&cid=${message.channel}|${origin_text}> `
+                        } else {
+                            new_text = `<https://test.slack.com/archives/${message.channel}/p${event_ts}|${origin_text}> `
+                        }
+
+                        const displayName = await app.client.users.profile.get({
+                            token: client.token,
+                            user: message.user
+                        });
+
+                        const result = await client.chat.postMessage({
+                            token: client.token,
+                            username: displayName.profile.display_name,
+                            channel: ch_id,
+                            text: new_text,
+                            icon_url: displayName.profile.image_original
+                        }); logger.info('result = ', result);
+                    }
+                    catch (error) {
+                        logger.error('error = ', error);
+                    }
+                });
+
+
+            (async() => {
+                // Start your app
+                await app.start(process.env.PORT || 3000);
+
+                console.log('⚡️ Bolt app is running!');
+            })();
