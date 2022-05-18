@@ -116,9 +116,12 @@ app.message('#', async({ message, event, client, logger }) => {
         const result1 = regexp1.exec(message.text); // または text.match( rg );
         const result2 = regexp2.exec(message.text); // または text.match( rg );
 
-        // while (result1 !== null) {
-        //     array1.push(result1);
-        // }
+        while (result1 !== null && result1[0] != '') {
+            array1.push(result1);
+        }
+
+        console.log("result1: ", result1);
+
 
         // while (result2 !== null) {
         //     array2.push(result2);
