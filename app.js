@@ -131,25 +131,27 @@ app.message('#', async({ message, event, client, logger }) => {
             const ch_id = message.text.substr(start_idxs[idx].index + 2, 11);
             console.log("ch_id == ", ch_id);
 
-            const replaced_txt = message.text.substr(start_idxs[idx].index, end_idxs[idx].index - start_idxs[idx].index + 1);
-            const replacing_txt = message.text.substr(start_idxs[idx].index + 13, end_idxs[idx].index - 1);
+            // const replaced_txt = message.text.substr(start_idxs[idx].index, end_idxs[idx].index - start_idxs[idx].index + 1);
+            // const replacing_txt = message.text.substr(start_idxs[idx].index + 14, end_idxs[idx].index - start_idxs[idx].index + 13);
 
             console.log("replace_txt == ", replaced_txt);
             console.log("replacing_txt == ", replacing_txt);
 
 
             const event_ts = message.ts.replace('.', '');
-            const origin_text = message.text.replace(replaced_txt, replacing_txt);
+            // const origin_text = message.text.replace(replaced_txt, replacing_txt);
 
             console.log("origin_text == ", origin_text);
 
             var new_text;
 
             if (message.thread_ts) {
-                new_text = `<https://test.slack.com/archives/${message.channel}/p${event_ts}?thread_ts=${message.thread_ts}&cid=${message.channel}|${origin_text}> `
+                new_text = `<https://test.slack.com/archives/${message.channel}/p${event_ts}?thread_ts=${message.thread_ts}&cid=${message.channel}|original > > `
             } else {
-                new_text = `<https://test.slack.com/archives/${message.channel}/p${event_ts}|${origin_text}> `
+                new_text = `<https://test.slack.com/archives/${message.channel}/p${event_ts}|original > > `
             }
+
+            new_text += origin_text;
 
             const displayName = await app.client.users.profile.get({
                 token: client.token,
@@ -163,10 +165,10 @@ app.message('#', async({ message, event, client, logger }) => {
                 text: new_text,
                 icon_url: displayName.profile.image_original
             });
+
+            logger.info('result = ', result);
         }
 
-
-        logger.info('result = ', result);
     } catch (error) {
         logger.error('error = ', error);
     }
