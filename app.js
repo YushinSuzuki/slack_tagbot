@@ -13,8 +13,9 @@ app.event('message', async({ event, client, logger }) => {
         var new_text;
         var new_parent_message;
 
-        console.log("イベント！！！");
         if (event.thread_ts) {
+
+            console.log("イベント！！！");
             try {
                 const replies = await client.conversations.replies({
                     token: client.token,
@@ -128,7 +129,7 @@ app.message('#', async({ message, event, client, logger }) => {
 
         for (const idx in start_idxs) {
 
-            const ch_id = message.text.substr(start_idxs[i].index + 2, 11);
+            const ch_id = message.text.substr(start_idxs[idx].index + 2, 11);
             console.log("ch_id == ", ch_id);
 
             // const replaced_txt = message.text.substr(start_idxs[idx].index, end_idxs[idx].index - start_idxs[idx].index + 1);
