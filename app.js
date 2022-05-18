@@ -120,13 +120,16 @@ app.message('#', async({ message, event, client, logger }) => {
             // expected output: "Found foo. Next starts at 19."
         }
 
-        for (let i = 0; array1.length > i; i++) {
+        console.log("array1: ", array1);
 
-            console.log("value: ", array1[i].valueOf());
 
-            console.log("index: ", array1[i].index, );
+        // for (let i = 0; array1.length > i; i++) {
 
-        }
+        //     console.log("value: ", array1[i].valueOf());
+
+        //     console.log("index: ", array1[i].index, );
+
+        // }
 
         // for (let i = 0; array2.length > i; i++) {
 
