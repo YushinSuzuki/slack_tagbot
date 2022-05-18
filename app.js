@@ -134,8 +134,8 @@ app.message('#', async({ message, event, client, logger }) => {
             // const replaced_txt = message.text.substr(start_idxs[idx].index, end_idxs[idx].index - start_idxs[idx].index + 1);
             // const replacing_txt = message.text.substr(start_idxs[idx].index + 14, end_idxs[idx].index - start_idxs[idx].index + 13);
 
-            console.log("replace_txt == ", replaced_txt);
-            console.log("replacing_txt == ", replacing_txt);
+            // console.log("replace_txt == ", replaced_txt);
+            // console.log("replacing_txt == ", replacing_txt);
 
 
             const event_ts = message.ts.replace('.', '');
