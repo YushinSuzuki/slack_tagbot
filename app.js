@@ -108,13 +108,13 @@ app.event('message', async({ event, client, logger }) => {
 
 app.message('#', async({ message, event, client, logger }) => {
     try {
-        const regex1 = /<#/g;
-        const regex2 = />/g;
+        const regexp1 = /<#/g;
+        const regexp2 = />/g;
         let array1;
         let array2;
 
-        const result1 = regex1.exec(message.text); // または text.match( rg );
-        const result2 = regex2.exec(message.text); // または text.match( rg );
+        const result1 = regexp1.exec(message.text); // または text.match( rg );
+        const result2 = regexp2.exec(message.text); // または text.match( rg );
 
         var i = 0;
         while (result1 !== null) {
