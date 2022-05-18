@@ -120,7 +120,7 @@ app.message('#', async({ message, event, client, logger }) => {
         while (result1 !== null) {
             console.log("result1 = ", result1[i]);
 
-            console.log('lastIndex=' + regexp.lastIndex);
+            console.log('lastIndex=' + regexp1.lastIndex);
             i++;
             // result
         }
