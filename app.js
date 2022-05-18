@@ -116,7 +116,7 @@ app.message('#', async({ message, event, client, logger }) => {
 
         while ((result1 = regexp1.exec(message.text)) !== null) {
             console.log(`Found ${result1[0]}. Next starts at ${regexp1.lastIndex}.`);
-            array1.push(result1[0]);
+            array1.push(result1);
             // expected output: "Found foo. Next starts at 9."
             // expected output: "Found foo. Next starts at 19."
         }
