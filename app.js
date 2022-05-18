@@ -124,21 +124,21 @@ app.message('#', async({ message, event, client, logger }) => {
             array2.push(result2);
         }
 
-        for (let i = 0; array1.length > i; i++) {
+        // for (let i = 0; array1.length > i; i++) {
 
-            console.log("value: ", array1[i].valueOf());
+        //     console.log("value: ", array1[i].valueOf());
 
-            console.log("index: ", array1[i].index, );
+        //     console.log("index: ", array1[i].index, );
 
-        }
+        // }
 
-        for (let i = 0; array2.length > i; i++) {
+        // for (let i = 0; array2.length > i; i++) {
 
-            console.log("value: ", array2[i].valueOf());
+        //     console.log("value: ", array2[i].valueOf());
 
-            console.log("index: ", array2[i].index, );
+        //     console.log("index: ", array2[i].index, );
 
-        }
+        // }
 
 
         const start_idx = message.text.indexOf("<#")
