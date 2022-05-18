@@ -108,21 +108,16 @@ app.event('message', async({ event, client, logger }) => {
 
 app.message('#', async({ message, event, client, logger }) => {
     try {
-        const regex1 = RegExp('<#', 'g');
-        const regex2 = RegExp('>', 'g');
+        const regex1 = /<#/;
+        const regex2 = />/;
         let array1;
         let array2;
 
-        while ((array1 = regex1.exec(message.text)) !== null) {
-            console.log(`Found ${array1[0]}. Next starts at ${regex1.index}.`);
-        }
+        const result1 = regex1.exec(message.text); // または text.match( rg );
+        const result2 = regex2.exec(message.text); // または text.match( rg );
 
-        while ((array2 = regex2.exec(message.text)) !== null) {
-            console.log(`Found ${array2[0]}. Next starts at ${regex2.index}.`);
-        }
-
-        console.log(array1);
-        console.log(array2);
+        console.log(result1);
+        console.log(result2);
 
 
         const start_idx = message.text.indexOf("<#")
