@@ -122,7 +122,7 @@ app.message('#', async({ message, event, client, logger }) => {
 
             console.log('lastIndex=' + regexp1.lastIndex);
             i++;
-            result = regexp.exec(str);
+            result1 = regexp1.exec(message.text);
         }
 
         var p = 0;
@@ -131,7 +131,7 @@ app.message('#', async({ message, event, client, logger }) => {
 
             console.log('lastIndex=' + regexp2.lastIndex);
             p++;
-            result = regexp.exec(str);
+            result2 = regexp2.exec(message.text);
         }
 
 
