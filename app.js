@@ -113,17 +113,14 @@ app.message('#', async({ message, event, client, logger }) => {
         let array1 = [];
         let array2 = [];
 
-        const result1 = regexp1.exec(message.text); // または text.match( rg );
-        const result2 = regexp2.exec(message.text); // または text.match( rg );
-
-
         console.log("result1: ", result1);
         console.log("result2: ", result2);
 
 
-        while (result1 !== null && result1[0] != '') {
-            // array1.push(result1);
-            console.log("result3: ", result2);
+        while ((array1 = regexp1.exec(message.text)) !== null) {
+            console.log(`Found ${array1[0]}. Next starts at ${regex1.lastIndex}.`);
+            // expected output: "Found foo. Next starts at 9."
+            // expected output: "Found foo. Next starts at 19."
         }
 
 
