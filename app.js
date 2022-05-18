@@ -122,9 +122,9 @@ app.message('#', async({ message, event, client, logger }) => {
             start_idxs.push(start_idx);
         }
 
-        while ((middle_idx = regexp_middle.exec(message.text)) !== null) {
-            middle_idxs.push(middle_idx);
-        }
+        // while ((middle_idx = regexp_middle.exec(message.text)) !== null) {
+        //     middle_idxs.push(middle_idx);
+        // }
 
         while ((end_idx = regexp_end.exec(message.text)) !== null) {
             end_idxs.push(end_idx);
