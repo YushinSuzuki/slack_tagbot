@@ -108,7 +108,7 @@ app.event('message', async({ event, client, logger }) => {
 
 app.message('#', async({ message, event, client, logger }) => {
     try {
-        const regexp1 = /<#/;
+        const regexp1 = /<#/g;
         const regexp2 = />/;
         let array1 = [];
         let array2 = [];
@@ -116,11 +116,15 @@ app.message('#', async({ message, event, client, logger }) => {
         const result1 = regexp1.exec(message.text); // または text.match( rg );
         const result2 = regexp2.exec(message.text); // または text.match( rg );
 
-        while (result1 !== null && result1[0] != '') {
-            array1.push(result1);
-        }
 
         console.log("result1: ", result1);
+        console.log("result2: ", result2);
+
+
+        while (result1 !== null && result1[0] != '') {
+            // array1.push(result1);
+            console.log("result3: ", result2);
+        }
 
 
         // while (result2 !== null) {
