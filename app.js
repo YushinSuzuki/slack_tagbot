@@ -128,11 +128,11 @@ app.message('#', async({ message, event, client, logger }) => {
 
         for (const idx in start_idxs) {
 
-            const ch_id = message.text.substr(start_idxs.index[idx] + 2, 11);
+            const ch_id = message.text.substr(start_idxs[idx].index + 2, 11);
             console.log("ch_id == ", ch_id);
 
-            const replaced_txt = message.text.substr(start_idxs.index[idx], end_idxs.index[idx] - start_idxs.index[idx] + 1);
-            const replacing_txt = message.text.substr(start_idxs.index[idx] + 13, end_idxs.index[idx] - 1);
+            const replaced_txt = message.text.substr(start_idxs[idx].index, end_idxs[idx].index - start_idxs[idx].index + 1);
+            const replacing_txt = message.text.substr(start_idxs[idx].index + 13, end_idxs[idx].index - 1);
 
             console.log("replace_txt == ", replaced_txt);
             console.log("replacing_txt == ", replacing_txt);
