@@ -1,22 +1,26 @@
 {
-  "name": "slack_tagbot",
-  "version": "1.0.0",
-  "description": "Organize your Slack comments with tags.",
-  "main": "app.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/YushinSuzuki/slack_tagbot.git"
-  },
-  "author": "YushinSuzuki",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/YushinSuzuki/slack_tagbot/issues"
-  },
-  "homepage": "https://github.com/YushinSuzuki/slack_tagbot#readme",
-  "dependencies": {
-    "@slack/bolt": "^3.11.1"
-  }
+    "name": "slack_tagbot",
+    "version": "1.0.0",
+    "description": "Organize your Slack comments with tags.",
+    "main": "app.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node --max_old_space_size=2560 node_modules/.bin/react-scripts start",
+        "build": "node --max_old_space_size=2560 node_modules/.bin/react-scripts build",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/YushinSuzuki/slack_tagbot.git"
+    },
+    "author": "YushinSuzuki",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/YushinSuzuki/slack_tagbot/issues"
+    },
+    "homepage": "https://github.com/YushinSuzuki/slack_tagbot#readme",
+    "dependencies": {
+        "@slack/bolt": "^3.11.1"
+    }
 }
