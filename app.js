@@ -110,8 +110,8 @@ app.message('#', async({ message, event, client, logger }) => {
     try {
         const regexp1 = /<#/g;
         const regexp2 = />/g;
-        let array1;
-        let array2;
+        let array1 = [];
+        let array2 = [];
 
         const result1 = regexp1.exec(message.text); // または text.match( rg );
         const result2 = regexp2.exec(message.text); // または text.match( rg );
