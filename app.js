@@ -150,7 +150,7 @@ app.message('#', async({ message, event, client, logger }) => {
                 new_text = `<https://test.slack.com/archives/${message.channel}/p${event_ts}|original > > `
             }
 
-            new_text += origin_text;
+            new_text += message.text;
 
             console.log("new_text == ", new_text);
 
