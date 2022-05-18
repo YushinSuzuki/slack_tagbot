@@ -109,8 +109,8 @@ app.event('message', async({ event, client, logger }) => {
 app.message('#', async({ message, event, client, logger }) => {
     try {
         const regexp_start = /<#/g,
-            regexp_middle = />/g;
-        regexp_end = />/g;
+            regexp_middle = /|/g,
+            regexp_end = />/g;
         let start_idxs = [],
             middle_idxs = [],
             end_idxs = [];
@@ -137,6 +137,8 @@ app.message('#', async({ message, event, client, logger }) => {
         for (const idx in start_idxs) {
 
             const ch_id = message.text.substr(start_idxs[idx] + 2, 11);
+            console.log("ch_id == ", ch_id);
+
             const replaced_txt = message.text.substr(start_idxs[idx], end_idxs[idx] - start_idxs[idx] + 1);
             const replacing_txt = message.text.substr(middle_idxs[idx], end_idxs[idx] - middle_idxs[idx] + 1);
 
