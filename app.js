@@ -117,13 +117,21 @@ app.message('#', async({ message, event, client, logger }) => {
         const result2 = regex2.exec(message.text); // または text.match( rg );
 
         var i = 0;
-        while (result !== null) {
+        while (result1 !== null) {
             console.log("result1 = ", result1[i]);
-            console.log("result2 = ", result1[2]);
 
             console.log('lastIndex=' + regexp.lastIndex);
             i++;
-            // result = regexp.exec(str);
+            // result
+        }
+
+        var p = 0;
+        while (result2 !== null) {
+            console.log("result2 = ", result2[p]);
+
+            console.log('lastIndex=' + regexp2.lastIndex);
+            p++;
+            // result= regexp.exec(str);
         }
 
 
