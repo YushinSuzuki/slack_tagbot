@@ -13,6 +13,7 @@ app.event('message', async({ event, client, logger }) => {
         var new_text;
         var new_parent_message;
 
+        console.log("イベント！！！");
         if (event.thread_ts) {
             try {
                 const replies = await client.conversations.replies({
@@ -29,7 +30,7 @@ app.event('message', async({ event, client, logger }) => {
                         last_mes = replies.messages[idx];
                     }
                 }
-                console.log('last_mes = ', last_mes);
+                // console.log('last_mes = ', last_mes);
 
                 const start_idx = replies.messages[0].text.indexOf("<#")
 
@@ -68,9 +69,9 @@ app.event('message', async({ event, client, logger }) => {
                         channel: ch_id
                     });
 
-                    console.log('parent_messages = ', parent_messages);
+                    // console.log('parent_messages = ', parent_messages);
 
-                    console.log('parent_text = ', parent_text);
+                    // console.log('parent_text = ', parent_text);
 
                     for (const idx in parent_messages.messages) {
                         if (parent_messages.messages[idx].text == parent_text) {
@@ -78,7 +79,7 @@ app.event('message', async({ event, client, logger }) => {
                         }
                     }
 
-                    console.log('new_parent_message = ', new_parent_message);
+                    // console.log('new_parent_message = ', new_parent_message);
 
 
                 } catch (error) {
@@ -115,6 +116,8 @@ app.message('#', async({ message, event, client, logger }) => {
         let start_idx = [],
             end_idx = [];
 
+        console.log("メッセージ！！！");
+
         while ((start_idx = regexp_start.exec(message.text)) !== null) {
             start_idxs.push(start_idx);
         }
@@ -123,13 +126,10 @@ app.message('#', async({ message, event, client, logger }) => {
             end_idxs.push(end_idx);
         }
 
-        console.log("start_idxs: ", start_idxs);
-        console.log("end_idxs: ", end_idxs);
-
         for (const idx in start_idxs) {
 
             const ch_id = message.text.substr(start_idxs[idx].index + 2, 11);
-            console.log("ch_id == ", ch_id);
+            // console.log("ch_id == ", ch_id);
 
             // const replaced_txt = message.text.substr(start_idxs[idx].index, end_idxs[idx].index - start_idxs[idx].index + 1);
             // const replacing_txt = message.text.substr(start_idxs[idx].index + 14, end_idxs[idx].index - start_idxs[idx].index + 13);
@@ -152,7 +152,7 @@ app.message('#', async({ message, event, client, logger }) => {
 
             new_text += message.text;
 
-            console.log("new_text == ", new_text);
+            // console.log("new_text == ", new_text);
 
 
             const displayName = await app.client.users.profile.get({
@@ -168,7 +168,7 @@ app.message('#', async({ message, event, client, logger }) => {
                 icon_url: displayName.profile.image_original
             });
 
-            logger.info('result = ', result);
+            // logger.info('result = ', result);
         }
 
     } catch (error) {
