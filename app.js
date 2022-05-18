@@ -145,9 +145,9 @@ app.message('#', async({ message, event, client, logger }) => {
 
 
             const event_ts = message.ts.replace('.', '');
-            const origin_text = message.text.replace(replace_txt, replacing_txt);
+            const origin_text = message.text.replace(replaced_txt, replacing_txt);
 
-            // console.log("origin_text == ", origin_text);
+            console.log("origin_text == ", origin_text);
 
             var new_text;
 
