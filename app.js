@@ -108,8 +108,8 @@ app.event('message', async({ event, client, logger }) => {
 
 app.message('#', async({ message, event, client, logger }) => {
     try {
-        const regex1 = /<#/;
-        const regex2 = />/;
+        const regex1 = /<#/g;
+        const regex2 = />/g;
         let array1;
         let array2;
 
