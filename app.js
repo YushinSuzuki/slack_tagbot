@@ -141,7 +141,6 @@ app.message('#', async({ message, event, client, logger }) => {
             const event_ts = message.ts.replace('.', '');
             // const origin_text = message.text.replace(replaced_txt, replacing_txt);
 
-            console.log("origin_text == ", origin_text);
 
             var new_text;
 
@@ -152,6 +151,9 @@ app.message('#', async({ message, event, client, logger }) => {
             }
 
             new_text += origin_text;
+
+            console.log("new_text == ", new_text);
+
 
             const displayName = await app.client.users.profile.get({
                 token: client.token,
