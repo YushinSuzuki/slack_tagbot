@@ -124,7 +124,6 @@ app.message('#', async({ message, event, client, logger }) => {
         }
 
         console.log("start_idxs: ", start_idxs);
-        console.log("middle_idxs: ", middle_idxs);
         console.log("end_idxs: ", end_idxs);
 
         for (const idx in start_idxs) {
