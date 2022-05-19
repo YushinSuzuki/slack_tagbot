@@ -22,14 +22,18 @@ https://slack.dev/bolt-js/deployments/heroku
   chat:write (for chat.postMessage)
   users.profile:read (for users.profile.get)
   channels:history (for conversations.replies)
+  channels:read(for conversations.info)
   groups:history
-  im:history
-  mpim:history
+  groups:read(for conversations.info)
+  im:history(for conversations.info)
+  mpim:history(for conversations.info)
   
 >User tokens
-  chat:write(chat.postMessage)
-  users.profile:read(users.profile.get)
+  chat:write(for chat.postMessage)
+  users.profile:read(for users.profile.get)
   channels:history (for conversations.replies)
+  channels:read(for conversations.info)
   groups:history
-  im:history
-  mpim:history
+  groups:read(for conversations.info)
+  im:history(for conversations.info)
+  mpim:history(for conversations.info)
