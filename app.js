@@ -80,7 +80,7 @@ app.event('message', async({ event, client, logger }) => {
                 let start_idxs = [];
                 let start_idx = [];
 
-                while ((start_idx = regexp_start.exec(message.text)) !== null) {
+                while ((start_idx = regexp_start.exec(replies.messages[0].text)) !== null) {
                     start_idxs.push(start_idx);
                 }
 
