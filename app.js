@@ -60,6 +60,8 @@ app.event('message', async({ event, client, logger }) => {
                 var parent_messages;
                 new_parent_message;
 
+                console.log('replies.messages[0] = ', replies.messages[0].text);
+
                 const text_idx2 = replies.messages[0].text.indexOf(">")
                 const parent_origin_text = replies.messages[0].text.substr(text_idx2 + 2);
                 const parent_ts = replies.messages[0].ts.replace('.', '');
