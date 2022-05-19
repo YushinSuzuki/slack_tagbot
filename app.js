@@ -166,16 +166,7 @@ app.message('#', async({ message, event, client, logger }) => {
             const ch_id = message.text.substr(start_idxs[idx].index + 2, 11);
             console.log("ch_id == ", ch_id);
 
-            // const replaced_txt = message.text.substr(start_idxs[idx].index, end_idxs[idx].index - start_idxs[idx].index + 1);
-            // const replacing_txt = message.text.substr(start_idxs[idx].index + 14, end_idxs[idx].index - start_idxs[idx].index + 13);
-
-            // console.log("replace_txt == ", replaced_txt);
-            // console.log("replacing_txt == ", replacing_txt);
-
-
             const event_ts = message.ts.replace('.', '');
-            // const origin_text = message.text.replace(replaced_txt, replacing_txt);
-
 
             var new_text;
 
@@ -185,10 +176,11 @@ app.message('#', async({ message, event, client, logger }) => {
                 new_text = `<https://test.slack.com/archives/${message.channel}/p${event_ts}|original > > `
             }
 
-            new_text += message.text;
+            console.log("message.conversations.info == ", message.conversations.info);
 
-            // console.log("new_text == ", new_text);
-
+            if (message.conversations.info.is_private) {
+                new_text += message.text;
+            }
 
             const displayName = await app.client.users.profile.get({
                 token: client.token,
