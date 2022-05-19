@@ -23,6 +23,7 @@ app.event('message', async({ event, client, logger }) => {
                     inclusive: true
                 });
 
+                //get a message of in thread
                 var last_mes;
 
                 for (const idx in replies.messages) {
@@ -37,6 +38,22 @@ app.event('message', async({ event, client, logger }) => {
                 const start_idx = replies.messages[0].text.indexOf("<#")
 
                 ch_id = replies.messages[0].text.substr(start_idx + 2, 11);
+
+                // const regexp_start = /<#/g;
+                // let start_idxs = [];
+                // let start_idx = [];
+
+                // console.log("メッセージ！！！");
+
+                // while ((start_idx = regexp_start.exec(message.text)) !== null) {
+                //     start_idxs.push(start_idx);
+                // }
+
+                // // while ((end_idx = regexp_end.exec(message.text)) !== null) {
+                // //     end_idxs.push(end_idx);
+                // // }
+
+                // for (const idx in start_idxs) {
 
                 displayName = await app.client.users.profile.get({
                     token: client.token,
@@ -85,19 +102,21 @@ app.event('message', async({ event, client, logger }) => {
 
                     console.log('copied_parent_message = ', copied_parent_message);
 
+                    const result = await client.chat.postMessage({
+                        token: client.token,
+                        username: displayName.profile.display_name,
+                        channel: ch_id,
+                        text: new_text,
+                        thread_ts: copied_parent_message.ts,
+                        icon_url: displayName.profile.image_original
+                    });
+
+                    // }
 
                 } catch (error) {
                     console.error(error);
                 }
 
-                const result = await client.chat.postMessage({
-                    token: client.token,
-                    username: displayName.profile.display_name,
-                    channel: ch_id,
-                    text: new_text,
-                    thread_ts: copied_parent_message.ts,
-                    icon_url: displayName.profile.image_original
-                });
 
 
             } catch (error) {
@@ -114,11 +133,8 @@ app.event('message', async({ event, client, logger }) => {
 app.message('#', async({ message, event, client, logger }) => {
     try {
         const regexp_start = /<#/g;
-        // regexp_end = />/g;
         let start_idxs = [];
-        // end_idxs = [];
         let start_idx = [];
-        // end_idx = [];
 
         console.log("メッセージ！！！");
 
