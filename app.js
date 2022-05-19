@@ -183,7 +183,7 @@ app.message('#', async({ message, event, client, logger }) => {
 
             console.log("message.conversations.info == ", ch_info);
 
-            if (ch_info.is_private) {
+            if (ch_info.channel.is_private) {
                 new_text += message.text;
             }
 
