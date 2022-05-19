@@ -161,10 +161,6 @@ app.message('#', async({ message, event, client, logger }) => {
             start_idxs.push(start_idx);
         }
 
-        // while ((end_idx = regexp_end.exec(message.text)) !== null) {
-        //     end_idxs.push(end_idx);
-        // }
-
         for (const idx in start_idxs) {
 
             const ch_id = message.text.substr(start_idxs[idx].index + 2, 11);
