@@ -94,6 +94,7 @@ app.event('message', async({ event, client, logger }) => {
                      */
                     //replies.messages[0] is a original parent message of a thread
                     const ch_id = replies.messages[0].text.substr(start_idxs[i] + 2, 11);
+                    console.log('ch_id = ', ch_id);
 
                     /**
                      * get messages from a poted channel
