@@ -60,7 +60,7 @@ app.event('message', async({ event, client, logger }) => {
 
                 const parent_ts = replies.messages[0].ts.replace('.', '');
 
-                var parent_text = `<https://test.slack.com/archives/${event_channell}/p${parent_ts}|original >  &gt; `
+                var parent_text = `<https://test.slack.com/archives/${event_channell}/p${parent_ts}|original > &gt; `
                 parent_text += replies.messages[0].text;
 
                 console.log('parent_text = ', parent_text);
