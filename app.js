@@ -31,7 +31,9 @@ app.event('message', async({ event, client, logger }) => {
                         last_mes = replies.messages[idx];
                     }
                 }
-                // console.log('last_mes = ', last_mes);
+
+                console.log("replies.messages", replies.messages);
+                console.log("last_mes", last_mes);
 
                 const start_idx = replies.messages[0].text.indexOf("<#")
 
