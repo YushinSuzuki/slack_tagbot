@@ -93,7 +93,7 @@ app.event('message', async({ event, client, logger }) => {
                      * get channel IDs as times as the number of channel tags.
                      */
                     //replies.messages[0] is a original parent message of a thread
-                    const ch_id = replies.messages[0].text.substr(start_idxs[i] + 2, 11);
+                    const ch_id = replies.messages[0].text.substr(start_idxs[i].index + 2, 11);
                     console.log('ch_id = ', ch_id);
 
                     /**
