@@ -74,7 +74,7 @@ app.event('message', async({ event, client, logger }) => {
 
                     // console.log('parent_messages = ', parent_messages);
 
-                    // console.log('parent_text = ', parent_text);
+                    console.log('parent_text = ', parent_text);
 
                     for (const idx in parent_messages.messages) {
                         if (parent_messages.messages[idx].text == parent_text) {
@@ -82,7 +82,7 @@ app.event('message', async({ event, client, logger }) => {
                         }
                     }
 
-                    // console.log('new_parent_message = ', new_parent_message);
+                    console.log('new_parent_message = ', new_parent_message);
 
 
                 } catch (error) {
