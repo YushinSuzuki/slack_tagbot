@@ -176,9 +176,14 @@ app.message('#', async({ message, event, client, logger }) => {
                 new_text = `<https://test.slack.com/archives/${message.channel}/p${event_ts}|original > > `
             }
 
-            console.log("message.conversations.info == ", client.conversations.info);
+            const ch_info = await client.conversations.info({
+                token: client.token,
+                channel: message.channel,
+            });
 
-            if (client.conversations.info.is_private) {
+            console.log("message.conversations.info == ", ch_info);
+
+            if (ch_info.is_private) {
                 new_text += message.text;
             }
 
