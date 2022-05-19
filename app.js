@@ -57,9 +57,6 @@ app.event('message', async({ event, client, logger }) => {
 
                 new_text = `<https://test.slack.com/archives/${event_channell}/p${ts}?thread_ts=${thread_ts}&cid=${event_channell}|${origin_text}> `
 
-                var parent_messages;
-                new_parent_message;
-
                 console.log('replies.messages[0] = ', replies.messages[0].text);
 
                 const text_idx2 = replies.messages[0].text.indexOf(">")
@@ -68,23 +65,28 @@ app.event('message', async({ event, client, logger }) => {
 
                 const parent_text = `<https://test.slack.com/archives/${event_channell}/p${parent_ts}|${parent_origin_text}> `
 
+
+                console.log('parent_text = ', parent_text);
+
+                var copied_messages;
+                var copied_parent_message;
+
                 try {
-                    parent_messages = await client.conversations.history({
+                    copied_messages = await client.conversations.history({
                         token: client.token,
                         channel: ch_id
                     });
 
-                    // console.log('parent_messages = ', parent_messages);
+                    console.log('copied_messages = ', copied_messages);
 
-                    console.log('parent_text = ', parent_text);
 
-                    for (const idx in parent_messages.messages) {
-                        if (parent_messages.messages[idx].text == parent_text) {
-                            new_parent_message = parent_messages.messages[idx];
+                    for (const idx in copied_messages.messages) {
+                        if (copied_messages.messages[idx].text == parent_text) {
+                            copied_parent_message = copied_messages.messages[idx];
                         }
                     }
 
-                    console.log('new_parent_message = ', new_parent_message);
+                    console.log('new_parent_message = ', copied_parent_message);
 
 
                 } catch (error) {
@@ -96,7 +98,7 @@ app.event('message', async({ event, client, logger }) => {
                     username: displayName.profile.display_name,
                     channel: ch_id,
                     text: new_text,
-                    thread_ts: new_parent_message.ts,
+                    thread_ts: copied_parent_message.ts,
                     icon_url: displayName.profile.image_original
                 });
 
