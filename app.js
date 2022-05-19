@@ -5,17 +5,33 @@ const app = new App({
     signingSecret: process.env.SLACK_SIGNING_SECRET
 });
 
+/**
+ * get a message event
+ */
 app.event('message', async({ event, client, logger }) => {
     try {
         const event_channell = event.channel;
         var displayName;
-        var ch_id;
         var new_text;
 
+        /**
+         * check a message is in thread.
+         */
         if (event.thread_ts) {
+
+            /**
+             * get a profile of posting user.
+             */
+            displayName = await app.client.users.profile.get({
+                token: client.token,
+                user: event.user
+            });
 
             console.log("イベント！！！");
             try {
+                /**
+                 * get a new message in a thread.
+                 */
                 const replies = await client.conversations.replies({
                     token: client.token,
                     channel: event.channel,
@@ -23,9 +39,7 @@ app.event('message', async({ event, client, logger }) => {
                     inclusive: true
                 });
 
-                //get a message of in thread
                 var last_mes;
-
                 for (const idx in replies.messages) {
                     if (replies.messages[idx].client_msg_id == event.client_msg_id) {
                         last_mes = replies.messages[idx];
@@ -35,89 +49,93 @@ app.event('message', async({ event, client, logger }) => {
                 console.log("replies.messages", replies.messages);
                 console.log("last_mes", last_mes);
 
-                const start_idx = replies.messages[0].text.indexOf("<#")
-
-                ch_id = replies.messages[0].text.substr(start_idx + 2, 11);
-
-                // const regexp_start = /<#/g;
-                // let start_idxs = [];
-                // let start_idx = [];
-
-                // console.log("メッセージ！！！");
-
-                // while ((start_idx = regexp_start.exec(message.text)) !== null) {
-                //     start_idxs.push(start_idx);
-                // }
-
-                // // while ((end_idx = regexp_end.exec(message.text)) !== null) {
-                // //     end_idxs.push(end_idx);
-                // // }
-
-                // for (const idx in start_idxs) {
-
-                displayName = await app.client.users.profile.get({
-                    token: client.token,
-                    user: event.user
-                });
-
+                /**
+                 * make a message txt for new posts.
+                 */
                 const ts = last_mes.ts.replace('.', '');
                 const thread_ts = last_mes.thread_ts;
-                var origin_text;
-                const text_idx = last_mes.text.indexOf(">")
+                new_text = `<https://test.slack.com/archives/${event_channell}/p${ts}?thread_ts=${thread_ts}&cid=${event_channell}|original > > `
+                new_text += last_mes.text;
 
-                if (last_mes.text.includes("#")) {
-                    origin_text = last_mes.text.substr(text_idx + 2);
-                } else {
-                    origin_text = last_mes.text;
-                }
+                console.log('new_text = ', new_text);
 
-                new_text = `<https://test.slack.com/archives/${event_channell}/p${ts}?thread_ts=${thread_ts}&cid=${event_channell}|${origin_text}> `
-
+                /**
+                 * make a txt of a posted message
+                 * that is originally parent message of a thread.
+                 */
                 console.log('replies.messages[0] = ', replies.messages[0].text);
 
+                //replies.messages[0] is a original parent message of a thread
                 const parent_ts = replies.messages[0].ts.replace('.', '');
-
                 var parent_text = `<https://test.slack.com/archives/${event_channell}/p${parent_ts}|original > &gt; `
                 parent_text += replies.messages[0].text;
 
                 console.log('parent_text = ', parent_text);
 
-                var copied_messages;
-                var copied_parent_message;
+                /**
+                 * get positions of cannhel tags.
+                 */
+                // const start_idx = replies.messages[0].text.indexOf("<#")
+                const regexp_start = /<#/g;
+                let start_idxs = [];
+                let start_idx = [];
 
-                try {
-                    copied_messages = await client.conversations.history({
-                        token: client.token,
-                        channel: ch_id
-                    });
-
-                    console.log('copied_messages = ', copied_messages);
-
-
-                    for (const idx in copied_messages.messages) {
-                        if (copied_messages.messages[idx].text == parent_text) {
-                            copied_parent_message = copied_messages.messages[idx];
-                        }
-                    }
-
-                    console.log('copied_parent_message = ', copied_parent_message);
-
-                    const result = await client.chat.postMessage({
-                        token: client.token,
-                        username: displayName.profile.display_name,
-                        channel: ch_id,
-                        text: new_text,
-                        thread_ts: copied_parent_message.ts,
-                        icon_url: displayName.profile.image_original
-                    });
-
-                    // }
-
-                } catch (error) {
-                    console.error(error);
+                while ((start_idx = regexp_start.exec(message.text)) !== null) {
+                    start_idxs.push(start_idx);
                 }
 
+                /**
+                 * post a message to each channels.
+                 */
+                for (const i in start_idxs) {
 
+                    /**
+                     * get channel IDs as times as the number of channel tags.
+                     */
+                    //replies.messages[0] is a original parent message of a thread
+                    const ch_id = replies.messages[0].text.substr(start_idxs[i] + 2, 11);
+
+                    /**
+                     * get messages from a poted channel
+                     */
+                    var copied_messages;
+                    try {
+                        copied_messages = await client.conversations.history({
+                            token: client.token,
+                            channel: ch_id
+                        });
+
+                        console.log('copied_messages = ', copied_messages);
+
+                        /**
+                         * get a parent message of a thread from poted channels
+                         */
+                        var copied_parent_message;
+                        for (const idx in copied_messages.messages) {
+                            if (copied_messages.messages[idx].text == parent_text) {
+                                copied_parent_message = copied_messages.messages[idx];
+                            }
+                        }
+
+                        console.log('copied_parent_message = ', copied_parent_message);
+
+                        /**
+                         * post a message to thread of a posted channel.
+                         */
+                        const result = await client.chat.postMessage({
+                            token: client.token,
+                            username: displayName.profile.display_name,
+                            channel: ch_id,
+                            text: new_text,
+                            thread_ts: copied_parent_message.ts,
+                            icon_url: displayName.profile.image_original
+                        });
+
+                    } catch (error) {
+                        console.error(error);
+                    }
+
+                }
 
             } catch (error) {
                 console.error(error);
