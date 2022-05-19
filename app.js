@@ -11,7 +11,6 @@ app.event('message', async({ event, client, logger }) => {
         var displayName;
         var ch_id;
         var new_text;
-        var new_parent_message;
 
         if (event.thread_ts) {
 
@@ -59,10 +58,9 @@ app.event('message', async({ event, client, logger }) => {
 
                 console.log('replies.messages[0] = ', replies.messages[0].text);
 
-                const serch_parent_text = replies.messages[0].text;
                 const parent_ts = replies.messages[0].ts.replace('.', '');
 
-                const parent_text = `<https://test.slack.com/archives/${event_channell}/p${parent_ts}|original > > `
+                var parent_text = `<https://test.slack.com/archives/${event_channell}/p${parent_ts}|original > > `
                 parent_text += replies.messages[0].text;
 
                 console.log('parent_text = ', parent_text);
