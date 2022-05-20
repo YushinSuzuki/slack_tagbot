@@ -220,7 +220,7 @@ app.event('message', async({ event, client, logger, message }) => {
             let start_idxs = [];
             let start_idx = [];
 
-            while ((start_idx = regexp_start.exec(message.text)) !== null) {
+            while ((start_idx = regexp_start.exec(message.message.text)) !== null) {
                 start_idxs.push(start_idx);
             }
 
@@ -232,7 +232,7 @@ app.event('message', async({ event, client, logger, message }) => {
                 /**
                  * get channel IDs as times as the number of channel tags.
                  */
-                const ch_id = message.text.substr(start_idxs[i].index + 2, 11);
+                const ch_id = message.message.text.substr(start_idxs[i].index + 2, 11);
                 console.log('ch_id = ', ch_id);
 
                 /**
@@ -252,7 +252,7 @@ app.event('message', async({ event, client, logger, message }) => {
                      */
                     var copied_parent_message;
                     for (const idx in copied_messages.messages) {
-                        if (copied_messages.messages[idx].text == message.previous_message) {
+                        if (copied_messages.messages[idx].text == message.previous_message.text) {
                             copied_parent_message = copied_messages.messages[idx];
                         }
                     }
