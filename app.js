@@ -259,7 +259,7 @@ app.event('message', async({ event, client, logger, message }) => {
             const event_channell = event.channel;
             const ts = message.message.ts.replace('.', '');
             const thread_ts = message.thread_ts;
-            let new_text = "";
+            var new_text = "";
 
             if (thread_ts) {
                 new_text = `<https://test.slack.com/archives/${event_channell}/p${ts}?thread_ts=${thread_ts}&cid=${event_channell}|original > > `
