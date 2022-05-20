@@ -345,7 +345,7 @@ app.event('message', async({ event, client, logger, message }) => {
         /**
          * get messages in a thread.
          */
-        let replies;
+        var replies;
         try {
             replies = await client.conversations.replies({
                 token: client.token,
