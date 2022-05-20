@@ -1,4 +1,4 @@
-const { App } = require('@slack/bolt');
+const ch_infoconst ch_infoconst { App } = require('@slack/bolt');
 
 const app = new App({
     token: process.env.SLACK_BOT_TOKEN,
@@ -9,56 +9,66 @@ const app = new App({
  * get a message event contains cannhel tags
  */
 app.message('#', async({ message, event, client, logger }) => {
-    try {
-        /**
-         * get positions of cannhel tags.
-         */
-        const regexp_start = /<#/g;
-        let start_idxs = [];
-        let start_idx = [];
+    /**
+     * get positions of cannhel tags from the message.
+     */
+    const regexp_start = /<#/g;
+    let start_idxs = [];
+    let start_idx = [];
 
-        while ((start_idx = regexp_start.exec(message.text)) !== null) {
-            start_idxs.push(start_idx);
+    while ((start_idx = regexp_start.exec(message.text)) !== null) {
+        start_idxs.push(start_idx);
+    }
+
+    for (const idx in start_idxs) {
+        const ch_id = message.text.substr(start_idxs[idx].index + 2, 11);
+
+        /**
+         * make a message txt for the new posts.
+         */
+        const event_ts = message.ts.replace('.', '');
+        var new_text;
+
+        if (message.thread_ts) {
+            new_text = `<https://test.slack.com/archives/${message.channel}/p${event_ts}?thread_ts=${message.thread_ts}&cid=${message.channel}|original > > `
+        } else {
+            new_text = `<https://test.slack.com/archives/${message.channel}/p${event_ts}|original > > `
         }
 
-        for (const idx in start_idxs) {
-            const ch_id = message.text.substr(start_idxs[idx].index + 2, 11);
-
-            /**
-             * make a message txt for the new posts.
-             */
-            const event_ts = message.ts.replace('.', '');
-            var new_text;
-
-            if (message.thread_ts) {
-                new_text = `<https://test.slack.com/archives/${message.channel}/p${event_ts}?thread_ts=${message.thread_ts}&cid=${message.channel}|original > > `
-            } else {
-                new_text = `<https://test.slack.com/archives/${message.channel}/p${event_ts}|original > > `
-            }
-
-            /**
-             * get a chennel information for private status.
-             * if the channnel is unprivate, link of original message shows same massage.
-             * so only private channel want "message.text" for new text.
-             */
-            const ch_info = await client.conversations.info({
+        /**
+         * get a chennel information for private status.
+         * if the channnel is unprivate, link of original message shows same massage.
+         * so only private channel want "message.text" for new text.
+         */
+        let ch_info;
+        try {
+            ch_info = await client.conversations.info({
                 token: client.token,
                 channel: message.channel,
             });
+        } catch (error) {
+            logger.error('error = ', error);
+        }
 
-            if (ch_info.channel.is_private) {
-                new_text += message.text;
-            }
+        if (ch_info.channel.is_private) {
+            new_text += message.text;
+        }
 
-            /**
-             * get a profile of the posted user
-             * for the bot to pretend to be the user.
-             */
-            const displayName = await app.client.users.profile.get({
+        /**
+         * get a profile of the posted user
+         * for the bot to pretend to be the user.
+         */
+        let displayName;
+        try {
+            displayName = await app.client.users.profile.get({
                 token: client.token,
                 user: message.user
             });
+        } catch (error) {
+            logger.error('error = ', error);
+        }
 
+        try {
             const result = await client.chat.postMessage({
                 token: client.token,
                 username: displayName.profile.display_name,
@@ -66,13 +76,13 @@ app.message('#', async({ message, event, client, logger }) => {
                 text: new_text,
                 icon_url: displayName.profile.image_original
             });
-
-            // logger.info('result = ', result);
+            logger.info('result = ', result);
+        } catch (error) {
+            logger.error('error = ', error);
         }
-
-    } catch (error) {
-        logger.error('error = ', error);
     }
+
+
 });
 
 
@@ -148,7 +158,7 @@ app.event('message', async({ event, client, logger, message }) => {
                 }
 
                 /**
-                 * get positions of cannhel tags.
+                 * get positions of cannhel tags from the message.
                  */
                 // const start_idx = replies.messages[0].text.indexOf("<#")
                 const regexp_start = /<#/g;
@@ -219,7 +229,7 @@ app.event('message', async({ event, client, logger, message }) => {
          */
         if (event.subtype == 'message_changed') {
             /**
-             * get positions of cannhel tags.
+             * get positions of cannhel tags from the message.
              */
             // const start_idx = replies.messages[0].text.indexOf("<#")
             const regexp_start = /<#/g;
