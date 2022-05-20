@@ -264,6 +264,7 @@ app.event('message', async({ event, client, logger, message }) => {
             if (ch_info.channel.is_private) {
                 previous_txt += message.previous_message.text;
             }
+            console.log("267 previous_txt = ", previous_txt);
 
             /**
              * make a message txt for the new posts.
@@ -321,10 +322,13 @@ app.event('message', async({ event, client, logger, message }) => {
                  */
                 let copied_message;
                 for (const idx in copied_messages.messages) {
+                    console.log("325 copied_messages.messages[idx].text = ", copied_messages.messages[idx].text);
+
                     if (copied_messages.messages[idx].text == previous_txt) {
                         copied_message = copied_messages.messages[idx];
                     }
                 }
+                console.log("331 copied_message = ", copied_message);
 
                 /**
                  * post the message to the thread of the posted channel.
