@@ -121,7 +121,7 @@ app.event('message', async({ event, client, logger, message }) => {
                 const event_channell = event.channel;
                 const ts = message.ts.replace('.', '');
                 const thread_ts = message.thread_ts;
-                var new_text = `<https://test.slack.com/archives/${event_channell}/p${ts}?thread_ts=${thread_ts}&cid=${event_channell}|original > > `
+                let new_text = `<https://test.slack.com/archives/${event_channell}/p${ts}?thread_ts=${thread_ts}&cid=${event_channell}|original > > `
                 new_text += message.text;
 
                 /**
@@ -130,7 +130,7 @@ app.event('message', async({ event, client, logger, message }) => {
                  */
                 //replies.messages[0] is a original parent message of a thread
                 const parent_ts = replies.messages[0].ts.replace('.', '');
-                var parent_text = `<https://test.slack.com/archives/${event_channell}/p${parent_ts}|original > &gt; `
+                let parent_text = `<https://test.slack.com/archives/${event_channell}/p${parent_ts}|original > &gt; `
 
                 /**
                  * get a chennel information for private status.
@@ -173,7 +173,7 @@ app.event('message', async({ event, client, logger, message }) => {
                     /**
                      * get messages from the posted channel
                      */
-                    var copied_messages;
+                    let copied_messages;
                     try {
                         copied_messages = await client.conversations.history({
                             token: client.token,
@@ -245,7 +245,7 @@ app.event('message', async({ event, client, logger, message }) => {
                 const event_channell = event.channel;
                 const ts = message.message.ts.replace('.', '');
                 const thread_ts = message.thread_ts;
-                var new_text = "";
+                let new_text = "";
 
                 if (thread_ts) {
                     new_text = `<https://test.slack.com/archives/${event_channell}/p${ts}?thread_ts=${thread_ts}&cid=${event_channell}|original > > `
@@ -259,11 +259,13 @@ app.event('message', async({ event, client, logger, message }) => {
                  * if the channnel is unprivate, link of original message shows same massage.
                  * so only private channel want "message.text" for new text.
                  */
+                let ch_info;
                 try {
                     const ch_info = await client.conversations.info({
                         token: client.token,
                         channel: message.channel,
                     });
+                    logger.info('ch_info = ', ch_info);
                 } catch (error) {
                     console.error(error);
                 }
@@ -277,7 +279,7 @@ app.event('message', async({ event, client, logger, message }) => {
                  * for find out the copied message.
                  */
                 const parent_ts = message.previous_message.ts.replace('.', '');
-                var parent_text = `<https://test.slack.com/archives/${event_channell}/p${parent_ts}|original > &gt; `
+                let parent_text = `<https://test.slack.com/archives/${event_channell}/p${parent_ts}|original > &gt; `
 
                 if (ch_info.channel.is_private) {
                     parent_text += message.previous_message.text;
@@ -286,7 +288,7 @@ app.event('message', async({ event, client, logger, message }) => {
                 /**
                  * get messages from the posted channel
                  */
-                var copied_messages;
+                let copied_messages;
                 copied_messages = await client.conversations.history({
                     token: client.token,
                     channel: ch_id
@@ -295,7 +297,7 @@ app.event('message', async({ event, client, logger, message }) => {
                 /**
                  * get the parent message of the thread from poted channels
                  */
-                var copied_parent_message;
+                let copied_parent_message;
                 for (const idx in copied_messages.messages) {
                     if (copied_messages.messages[idx].text == parent_text) {
                         copied_parent_message = copied_messages.messages[idx];
@@ -312,6 +314,7 @@ app.event('message', async({ event, client, logger, message }) => {
                         text: new_text,
                         ts: copied_parent_message.ts,
                     });
+                    logger.info('result = ', result);
                 } catch (error) {
                     console.error(error);
                 }
