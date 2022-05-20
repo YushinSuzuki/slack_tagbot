@@ -245,6 +245,7 @@ app.event('message', async({ event, client, logger, message }) => {
         } catch (error) {
             console.error(error);
         }
+        console.log("ch_info.channel.is_private = ", ch_info.channel.is_private);
 
         /**
          * make a txt from the previous_message
@@ -341,6 +342,8 @@ app.event('message', async({ event, client, logger, message }) => {
             }
         }
 
+        console.log("ch_info.channel.is_private = ", ch_info.channel.is_private);
+
         /**
          * if the message in a thread,
          * it's gonna post to copied message thread.
@@ -369,6 +372,7 @@ app.event('message', async({ event, client, logger, message }) => {
             //replies.messages[0] is a original parent message of a thread
             const parent_ts = replies.messages[0].ts.replace('.', '');
             var parent_text = `<https://test.slack.com/archives/${event.channel}/p${parent_ts}|original > &gt; `
+
             console.log("ch_info.channel.is_private = ", ch_info.channel.is_private);
 
             if (ch_info.channel.is_private) {
