@@ -247,6 +247,8 @@ app.event('message', async({ event, client, logger, message }) => {
         /**
          * post the message to each channels.
          */
+        var ch_info;
+        var new_text = "";
         for (const i in start_idxs) {
             /**
              * get channel IDs as times as the number of channel tags.
@@ -258,7 +260,6 @@ app.event('message', async({ event, client, logger, message }) => {
              */
             const ts = message.message.ts.replace('.', '');
             const thread_ts = message.thread_ts;
-            var new_text = "";
 
             if (thread_ts) {
                 new_text = `<https://test.slack.com/archives/${event.channel}/p${ts}?thread_ts=${thread_ts}&cid=${event.channel}|original > > `
@@ -266,13 +267,11 @@ app.event('message', async({ event, client, logger, message }) => {
                 new_text = `<https://test.slack.com/archives/${event.channel}/p${ts}|original > > `
             }
 
-
             /**
              * get a chennel information for private status.
              * if the channnel is unprivate, link of original message shows same massage.
              * so only private channel want "message.text" for new text.
              */
-            let ch_info;
             try {
                 ch_info = await client.conversations.info({
                     token: client.token,
