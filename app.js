@@ -262,6 +262,7 @@ app.event('message', async({ event, client, logger, message }) => {
          */
         var ch_info;
         var new_text = "";
+        var previous_txt;
         for (const i in start_idxs) {
             /**
              * get channel IDs as times as the number of channel tags.
@@ -293,7 +294,7 @@ app.event('message', async({ event, client, logger, message }) => {
              * for find out the copied message.
              */
             const parent_ts = message.previous_message.ts.replace('.', '');
-            var previous_txt = `<https://test.slack.com/archives/${event.channel}/p${parent_ts}|original > &gt; `
+            previous_txt = `<https://test.slack.com/archives/${event.channel}/p${parent_ts}|original > &gt; `
 
             if (ch_info.channel.is_private) {
                 previous_txt += message.previous_message.text;
