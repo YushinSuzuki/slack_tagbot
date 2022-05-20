@@ -350,7 +350,7 @@ app.event('message', async({ event, client, logger, message }) => {
             replies = await client.conversations.replies({
                 token: client.token,
                 channel: event.channel,
-                ts: event.thread_ts,
+                ts: message.message.thread_ts,
                 inclusive: true
             });
             logger.info('replies = ', replies);
