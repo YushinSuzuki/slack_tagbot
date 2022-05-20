@@ -6,10 +6,13 @@ const app = new App({
 });
 
 /**
- * get a message event
+ * get a message event contains cannhel tags
  */
 app.message('#', async({ message, event, client, logger }) => {
     try {
+        /**
+         * get positions of cannhel tags.
+         */
         const regexp_start = /<#/g;
         let start_idxs = [];
         let start_idx = [];
@@ -19,12 +22,12 @@ app.message('#', async({ message, event, client, logger }) => {
         }
 
         for (const idx in start_idxs) {
-
             const ch_id = message.text.substr(start_idxs[idx].index + 2, 11);
-            console.log("ch_id == ", ch_id);
 
+            /**
+             * make a message txt for the new posts.
+             */
             const event_ts = message.ts.replace('.', '');
-
             var new_text;
 
             if (message.thread_ts) {
@@ -33,17 +36,24 @@ app.message('#', async({ message, event, client, logger }) => {
                 new_text = `<https://test.slack.com/archives/${message.channel}/p${event_ts}|original > > `
             }
 
+            /**
+             * get a chennel information for private status.
+             * if the channnel is unprivate, link of original message shows same massage.
+             * so only private channel want "message.text" for new text.
+             */
             const ch_info = await client.conversations.info({
                 token: client.token,
                 channel: message.channel,
             });
 
-            console.log("message.conversations.info == ", ch_info);
-
             if (ch_info.channel.is_private) {
                 new_text += message.text;
             }
 
+            /**
+             * get a profile of the posted user
+             * for the bot to pretend to be the user.
+             */
             const displayName = await app.client.users.profile.get({
                 token: client.token,
                 user: message.user
@@ -86,14 +96,14 @@ app.event('message', async({ event, client, logger, message }) => {
         if (event.thread_ts) {
 
             /**
-             * get the profile of posting user.
+             * get a profile of the posted user
+             * for the bot to pretend to be the user.
              */
             var displayName = await app.client.users.profile.get({
                 token: client.token,
                 user: event.user
             });
 
-            console.log("イベント！！！");
             try {
                 /**
                  * get a new message in the thread.
@@ -105,9 +115,6 @@ app.event('message', async({ event, client, logger, message }) => {
                     inclusive: true
                 });
 
-                console.log("replies.messages", replies.messages);
-                console.log("last_mes", message);
-
                 /**
                  * make a message txt for the new posts.
                  */
@@ -117,32 +124,28 @@ app.event('message', async({ event, client, logger, message }) => {
                 var new_text = `<https://test.slack.com/archives/${event_channell}/p${ts}?thread_ts=${thread_ts}&cid=${event_channell}|original > > `
                 new_text += message.text;
 
-                console.log('new_text = ', new_text);
-
                 /**
                  * make a txt from the parent message of the thread
                  * for find out the copied message.
                  */
-                console.log('replies.messages[0] = ', replies.messages[0].text);
-
                 //replies.messages[0] is a original parent message of a thread
                 const parent_ts = replies.messages[0].ts.replace('.', '');
                 var parent_text = `<https://test.slack.com/archives/${event_channell}/p${parent_ts}|original > &gt; `
 
-                //get a chennel information
+                /**
+                 * get a chennel information for private status.
+                 * if the channnel is unprivate, link of original message shows same massage.
+                 * so only private channel want "message.text" for new text.
+                 */
                 const ch_info = await client.conversations.info({
                     token: client.token,
                     channel: message.channel,
                 });
 
-                console.log("message.conversations.info == ", ch_info);
-
                 if (ch_info.channel.is_private) {
                     parent_text += replies.messages[0].text;
 
                 }
-
-                console.log('parent_text = ', parent_text);
 
                 /**
                  * get positions of cannhel tags.
@@ -166,7 +169,6 @@ app.event('message', async({ event, client, logger, message }) => {
                      */
                     //replies.messages[0] is a original parent message of a thread
                     const ch_id = replies.messages[0].text.substr(start_idxs[i].index + 2, 11);
-                    console.log('ch_id = ', ch_id);
 
                     /**
                      * get messages from the posted channel
@@ -178,8 +180,6 @@ app.event('message', async({ event, client, logger, message }) => {
                             channel: ch_id
                         });
 
-                        console.log('copied_messages = ', copied_messages);
-
                         /**
                          * get the parent message of the thread from poted channels
                          */
@@ -189,8 +189,6 @@ app.event('message', async({ event, client, logger, message }) => {
                                 copied_parent_message = copied_messages.messages[idx];
                             }
                         }
-
-                        console.log('copied_parent_message = ', copied_parent_message);
 
                         /**
                          * post the message to the thread of the posted channel.
@@ -207,14 +205,12 @@ app.event('message', async({ event, client, logger, message }) => {
                     } catch (error) {
                         console.error(error);
                     }
-
                 }
-
             } catch (error) {
                 console.error(error);
             }
-
         }
+
 
         /**
          * If the message was edited,
@@ -222,9 +218,6 @@ app.event('message', async({ event, client, logger, message }) => {
          * with a new message.
          */
         if (event.subtype == 'message_changed') {
-
-            console.log("message  ==  ", message);
-
             /**
              * get positions of cannhel tags.
              */
@@ -241,95 +234,88 @@ app.event('message', async({ event, client, logger, message }) => {
              * post the message to each channels.
              */
             for (const i in start_idxs) {
-
                 /**
                  * get channel IDs as times as the number of channel tags.
                  */
                 const ch_id = message.message.text.substr(start_idxs[i].index + 2, 11);
-                console.log('ch_id = ', ch_id);
+
+                /**
+                 * make a message txt for the new posts.
+                 */
+                const event_channell = event.channel;
+                const ts = message.message.ts.replace('.', '');
+                const thread_ts = message.thread_ts;
+                var new_text = "";
+
+                if (thread_ts) {
+                    new_text = `<https://test.slack.com/archives/${event_channell}/p${ts}?thread_ts=${thread_ts}&cid=${event_channell}|original > > `
+                } else {
+                    new_text = `<https://test.slack.com/archives/${event_channell}/p${ts}|original > > `
+                }
+
+
+                /**
+                 * get a chennel information for private status.
+                 * if the channnel is unprivate, link of original message shows same massage.
+                 * so only private channel want "message.text" for new text.
+                 */
+                try {
+                    const ch_info = await client.conversations.info({
+                        token: client.token,
+                        channel: message.channel,
+                    });
+                } catch (error) {
+                    console.error(error);
+                }
+
+                if (ch_info.channel.is_private) {
+                    new_text += message.message.text;
+                }
+
+                /**
+                 * make a txt from the previous_message
+                 * for find out the copied message.
+                 */
+                const parent_ts = message.previous_message.ts.replace('.', '');
+                var parent_text = `<https://test.slack.com/archives/${event_channell}/p${parent_ts}|original > &gt; `
+
+                if (ch_info.channel.is_private) {
+                    parent_text += message.previous_message.text;
+                }
 
                 /**
                  * get messages from the posted channel
                  */
                 var copied_messages;
+                copied_messages = await client.conversations.history({
+                    token: client.token,
+                    channel: ch_id
+                });
+
+                /**
+                 * get the parent message of the thread from poted channels
+                 */
+                var copied_parent_message;
+                for (const idx in copied_messages.messages) {
+                    if (copied_messages.messages[idx].text == parent_text) {
+                        copied_parent_message = copied_messages.messages[idx];
+                    }
+                }
+
+                /**
+                 * post the message to the thread of the posted channel.
+                 */
                 try {
-                    copied_messages = await client.conversations.history({
-                        token: client.token,
-                        channel: ch_id
-                    });
-
-                    console.log('copied_messages = ', copied_messages);
-
-
-                    //get a chennel information
-                    const ch_info = await client.conversations.info({
-                        token: client.token,
-                        channel: message.channel,
-                    });
-
-                    /**
-                     * make a message txt for the new posts.
-                     */
-                    const event_channell = event.channel;
-                    const ts = message.message.ts.replace('.', '');
-                    const thread_ts = message.thread_ts;
-                    var new_text = "";
-
-                    if (thread_ts) {
-                        new_text = `<https://test.slack.com/archives/${event_channell}/p${ts}?thread_ts=${thread_ts}&cid=${event_channell}|original > > `
-                    } else {
-                        new_text = `<https://test.slack.com/archives/${event_channell}/p${ts}|original > > `
-                    }
-
-                    if (ch_info.channel.is_private) {
-                        new_text += message.message.text;
-                    }
-
-                    console.log('new_text = ', new_text);
-
-                    /**
-                     * make a txt from the previous_message
-                     * for find out the copied message.
-                     */
-                    const parent_ts = message.previous_message.ts.replace('.', '');
-                    var parent_text = `<https://test.slack.com/archives/${event_channell}/p${parent_ts}|original > &gt; `
-
-                    if (ch_info.channel.is_private) {
-                        parent_text += message.previous_message.text;
-                    }
-
-                    console.log('parent_text = ', parent_text);
-
-                    /**
-                     * get the parent message of the thread from poted channels
-                     */
-                    var copied_parent_message;
-                    for (const idx in copied_messages.messages) {
-                        if (copied_messages.messages[idx].text == parent_text) {
-                            copied_parent_message = copied_messages.messages[idx];
-                        }
-                    }
-
-                    console.log('copied_parent_message = ', copied_parent_message);
-
-                    /**
-                     * post the message to the thread of the posted channel.
-                     */
                     const result = await client.chat.update({
                         token: client.token,
                         channel: ch_id,
                         text: new_text,
                         ts: copied_parent_message.ts,
                     });
-
                 } catch (error) {
                     console.error(error);
                 }
-
             }
-
-
-
         }
 
     } catch (error) {
