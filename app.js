@@ -418,6 +418,7 @@ app.event('message', async({ event, client, logger, message }) => {
                         copied_message = copied_messages.messages[idx];
                     }
                 }
+                console.log("copied_message = ", copied_message);
 
                 /**
                  * fine the copied message in the thread of channels
