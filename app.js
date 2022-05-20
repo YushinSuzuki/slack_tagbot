@@ -369,6 +369,7 @@ app.event('message', async({ event, client, logger, message }) => {
         if (ch_info.channel.is_private) {
             parent_text += replies.messages[0].text;
         }
+        console.log(parent_text);
 
         /**
          * get positions of cannhel tags from the parent message.
