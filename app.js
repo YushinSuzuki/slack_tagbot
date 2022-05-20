@@ -293,7 +293,7 @@ app.event('message', async({ event, client, logger, message }) => {
              * for find out the copied message.
              */
             const parent_ts = message.previous_message.ts.replace('.', '');
-            let previous_txt = `<https://test.slack.com/archives/${event_channell}/p${parent_ts}|original > &gt; `
+            var previous_txt = `<https://test.slack.com/archives/${event_channell}/p${parent_ts}|original > &gt; `
 
             if (ch_info.channel.is_private) {
                 previous_txt += message.previous_message.text;
