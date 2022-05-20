@@ -1,4 +1,4 @@
-const ch_infoconst ch_infoconst { App } = require('@slack/bolt');
+const { App } = require('@slack/bolt');
 
 const app = new App({
     token: process.env.SLACK_BOT_TOKEN,
@@ -82,13 +82,6 @@ app.message('#', async({ message, event, client, logger }) => {
         }
     }
 
-
-});
-
-
-
-app.event("request", async({ event, client, logger }) => {
-    console.log(event);
 
 });
 
