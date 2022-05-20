@@ -126,7 +126,7 @@ app.event('message', async({ event, client, logger, message }) => {
          */
         const event_channell = event.channel;
         const ts = message.ts.replace('.', '');
-        let new_text = `<https://test.slack.com/archives/${event_channell}/p${ts}?thread_ts=${message.thread_ts}&cid=${event_channell}|original > > `
+        let new_text = `<https://test.slack.com/archives/${event_channell}/p${ts}?thread_ts=${event.thread_ts}&cid=${event_channell}|original > > `
         if (ch_info.channel.is_private) {
             new_text += message.text;
         }
@@ -265,6 +265,11 @@ app.event('message', async({ event, client, logger, message }) => {
          * make a message txt for the new posts.
          */
         var ts = message.message.ts.replace('.', '');
+
+        console.log("message.thread_ts = ", message.thread_ts);
+        console.log("message.message.thread_ts = ", message.message.thread_ts);
+
+        console.log("event.thread_ts = ", event.thread_ts);
 
         if (message.thread_ts) {
             new_text = `<https://test.slack.com/archives/${event.channel}/p${ts}?thread_ts=${message.thread_ts}&cid=${event.channel}|original > > `
@@ -435,7 +440,7 @@ app.event('message', async({ event, client, logger, message }) => {
              * make a txt from the previous_message in the thread
              * for find out the copied message.
              */
-            let previous_th_txt = `<https://test.slack.com/archives/${event.channel}/p${ts}?thread_ts=${message.thread_ts}&cid=${event.channel}|original > &gt; `
+            let previous_th_txt = `<https://test.slack.com/archives/${event.channel}/p${ts}?thread_ts=${event.thread_ts}&cid=${event.channel}|original > &gt; `
 
             /**
              * if the channnel is unprivate, link of original message shows same massage.
