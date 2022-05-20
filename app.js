@@ -222,7 +222,7 @@ app.event('message', async({ event, client, logger, message }) => {
 
     }
 
-
+    console.log(event);
     /**
      * If the message was edited,
      * overwrite the copied message on other channels
