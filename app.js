@@ -27,7 +27,7 @@ app.message('#', async({ message, event, client, logger }) => {
          * make a message txt for the new posts.
          */
         const event_ts = message.ts.replace('.', '');
-        var new_text;
+        let new_text;
 
         if (message.thread_ts) {
             new_text = `<https://test.slack.com/archives/${message.channel}/p${event_ts}?thread_ts=${message.thread_ts}&cid=${message.channel}|original > > `
@@ -271,7 +271,7 @@ app.event('message', async({ event, client, logger, message }) => {
                  */
                 let ch_info;
                 try {
-                    const ch_info = await client.conversations.info({
+                    ch_info = await client.conversations.info({
                         token: client.token,
                         channel: message.channel,
                     });
