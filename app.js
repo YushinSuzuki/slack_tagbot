@@ -369,7 +369,6 @@ app.event('message', async({ event, client, logger, message }) => {
         if (ch_info.channel.is_private) {
             parent_text += replies.messages[0].text;
         }
-        console.log(parent_text);
 
         /**
          * get positions of cannhel tags from the parent message.
@@ -409,12 +408,17 @@ app.event('message', async({ event, client, logger, message }) => {
             /**
              * get the parent message of the thread from poted channels
              */
+
+            console.log("parent_text = ", parent_text);
+
             let copied_message;
             for (const idx in copied_messages.messages) {
                 if (copied_messages.messages[idx].text == parent_text) {
                     copied_message = copied_messages.messages[idx];
                 }
             }
+            console.log("copied_message = ", copied_message);
+
             /**
              * fine the copied message in the thread of channels
              */
