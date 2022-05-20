@@ -81,16 +81,13 @@ app.event('message', async({ event, client, logger, message }) => {
          * post the message to the thread
          * of the copied message on another channels.
          */
-        const event_channell = event.channel;
-        var displayName;
-        var new_text;
         //checking the message is in a thread.
         if (event.thread_ts) {
 
             /**
              * get the profile of posting user.
              */
-            displayName = await app.client.users.profile.get({
+            var displayName = await app.client.users.profile.get({
                 token: client.token,
                 user: event.user
             });
@@ -107,22 +104,16 @@ app.event('message', async({ event, client, logger, message }) => {
                     inclusive: true
                 });
 
-                // var last_mes;
-                // for (const idx in replies.messages) {
-                //     if (replies.messages[idx].client_msg_id == event.client_msg_id) {
-                //         last_mes = replies.messages[idx];
-                //     }
-                // }
-
                 console.log("replies.messages", replies.messages);
                 console.log("last_mes", message);
 
                 /**
                  * make a message txt for the new posts.
                  */
+                const event_channell = event.channel;
                 const ts = message.ts.replace('.', '');
                 const thread_ts = message.thread_ts;
-                new_text = `<https://test.slack.com/archives/${event_channell}/p${ts}?thread_ts=${thread_ts}&cid=${event_channell}|original > > `
+                var new_text = `<https://test.slack.com/archives/${event_channell}/p${ts}?thread_ts=${thread_ts}&cid=${event_channell}|original > > `
                 new_text += message.text;
 
                 console.log('new_text = ', new_text);
@@ -221,7 +212,6 @@ app.event('message', async({ event, client, logger, message }) => {
 
             console.log("message  ==  ", message);
 
-
             /**
              * get positions of cannhel tags.
              */
@@ -230,7 +220,7 @@ app.event('message', async({ event, client, logger, message }) => {
             let start_idxs = [];
             let start_idx = [];
 
-            while ((start_idx = regexp_start.exec(replies.messages[0].text)) !== null) {
+            while ((start_idx = regexp_start.exec(messages.text)) !== null) {
                 start_idxs.push(start_idx);
             }
 
@@ -242,7 +232,7 @@ app.event('message', async({ event, client, logger, message }) => {
                 /**
                  * get channel IDs as times as the number of channel tags.
                  */
-                const ch_id = event.messages[0].text.substr(start_idxs[i].index + 2, 11);
+                const ch_id = messages.text.substr(start_idxs[i].index + 2, 11);
                 console.log('ch_id = ', ch_id);
 
                 /**
@@ -262,7 +252,7 @@ app.event('message', async({ event, client, logger, message }) => {
                      */
                     var copied_parent_message;
                     for (const idx in copied_messages.messages) {
-                        if (copied_messages.messages[idx].text == parent_text) {
+                        if (copied_messages.messages[idx].text == message.previous_message) {
                             copied_parent_message = copied_messages.messages[idx];
                         }
                     }
@@ -274,11 +264,9 @@ app.event('message', async({ event, client, logger, message }) => {
                      */
                     const result = await client.chat.postMessage({
                         token: client.token,
-                        username: displayName.profile.display_name,
                         channel: ch_id,
-                        text: new_text,
+                        text: message.message.text,
                         thread_ts: copied_parent_message.ts,
-                        icon_url: displayName.profile.image_original
                     });
 
                 } catch (error) {
