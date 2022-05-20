@@ -267,7 +267,7 @@ app.event('message', async({ event, client, logger, message }) => {
          */
         var ts = message.message.ts.replace('.', '');
 
-        if (thread_ts) {
+        if (message.thread_ts) {
             new_text = `<https://test.slack.com/archives/${event.channel}/p${ts}?thread_ts=${message.thread_ts}&cid=${event.channel}|original > > `
         } else {
             new_text = `<https://test.slack.com/archives/${event.channel}/p${ts}|original > > `
