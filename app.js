@@ -283,7 +283,7 @@ app.event('message', async({ event, client, logger, message }) => {
                     /**
                      * post the message to the thread of the posted channel.
                      */
-                    const result = await client.chat.postMessage({
+                    const result = await client.chat.update({
                         token: client.token,
                         channel: ch_id,
                         text: message.message.text,
