@@ -248,6 +248,27 @@ app.event('message', async({ event, client, logger, message }) => {
                     console.log('copied_messages = ', copied_messages);
 
                     /**
+                     * make a txt from the edited message
+                     * for find out the original message.
+                     */
+                    const event_channell = event.channel;
+                    const parent_ts = message.previous_message.ts.replace('.', '');
+                    var parent_text = `<https://test.slack.com/archives/${event_channell}/p${parent_ts}|original > &gt; `
+
+                    const ch_info = await client.conversations.info({
+                        token: client.token,
+                        channel: message.channel,
+                    });
+
+                    console.log("message.conversations.info == ", ch_info);
+
+                    if (ch_info.channel.is_private) {
+                        parent_text += message.previous_message.text;
+                    }
+
+                    console.log('parent_text = ', parent_text);
+
+                    /**
                      * get the parent message of the thread from poted channels
                      */
                     var copied_parent_message;
