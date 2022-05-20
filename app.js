@@ -452,6 +452,9 @@ app.event('message', async({ event, client, logger, message }) => {
 
             let copied_thread_mes;
             for (const p in copied_replies.messages.length) {
+
+                console.log("copied_replies.messages[p].text = ", copied_replies.messages[p].text);
+
                 if (copied_replies.messages[p].text == previous_th_txt) {
                     copied_thread_mes = copied_replies.messages[p];
                 }
