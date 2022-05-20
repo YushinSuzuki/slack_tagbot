@@ -273,7 +273,7 @@ app.event('message', async({ event, client, logger, message }) => {
                      */
                     var copied_parent_message;
                     for (const idx in copied_messages.messages) {
-                        if (copied_messages.messages[idx].text == message.previous_message.text) {
+                        if (copied_messages.messages[idx].text == parent_text) {
                             copied_parent_message = copied_messages.messages[idx];
                         }
                     }
