@@ -369,6 +369,7 @@ app.event('message', async({ event, client, logger, message }) => {
             //replies.messages[0] is a original parent message of a thread
             const parent_ts = replies.messages[0].ts.replace('.', '');
             var parent_text = `<https://test.slack.com/archives/${event.channel}/p${parent_ts}|original > &gt; `
+            console.log("ch_info.channel.is_private = ", ch_info.channel.is_private);
 
             if (ch_info.channel.is_private) {
                 parent_text += replies.messages[0].text;
