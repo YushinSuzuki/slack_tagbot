@@ -331,10 +331,6 @@ app.event('message', async({ event, client, logger, message }) => {
             }
         }
     }
-
-} catch (error) {
-    logger.error(error);
-}
 });
 
 (async() => {
