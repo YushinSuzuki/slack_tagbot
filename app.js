@@ -452,7 +452,7 @@ app.event('message', async({ event, client, logger, message }) => {
             console.log("copied_replies.messages.length = ", copied_replies.messages.length);
 
             let copied_thread_mes;
-            for (const p in copied_replies.messages.length) {
+            for (const p in copied_replies.messages) {
 
                 console.log("copied_replies.messages[p].text = ", copied_replies.messages[p].text);
 
