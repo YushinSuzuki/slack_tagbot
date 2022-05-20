@@ -408,6 +408,7 @@ app.event('message', async({ event, client, logger, message }) => {
                 } catch (error) {
                     console.error(error);
                 }
+                console.log("parent_text = ", parent_text);
 
                 /**
                  * get the parent message of the thread from poted channels
@@ -452,16 +453,13 @@ app.event('message', async({ event, client, logger, message }) => {
 
                 let copied_thread_mes;
                 for (const p in copied_replies.messages) {
-
-                    console.log("copied_replies.messages[p].text = ", copied_replies.messages[p].text);
-
                     if (copied_replies.messages[p].text == previous_th_txt) {
                         copied_thread_mes = copied_replies.messages[p];
                     }
                 }
-                console.log("previous_txt = ", previous_th_txt);
+                console.log("copied_thread_mes.ts = ", copied_thread_mes.ts);
 
-                console.log("copied_thread_mes = ", copied_thread_mes);
+                console.log("copied_thread_mes.thread_ts = ", copied_thread_mes.thread_ts);
                 /**
                  * post the message to the thread of the posted channel.
                  */
