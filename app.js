@@ -250,13 +250,20 @@ app.event('message', async({ event, client, logger, message }) => {
                 console.error(error);
             }
 
+            console.log("253 ch_info.channel.is_private = ", ch_info.channel.is_private);
+
+
             /**
              * make a txt from the previous_message
              * for find out the copied message.
              */
-            const parent_ts = message.previous_message.ts.replace('.', '');
-            var previous_txt = `<https://test.slack.com/archives/${event.channel}/p${parent_ts}|original > &gt; `
-
+            const previous_ts = message.previous_message.ts.replace('.', '');
+            var previous_txt;
+            if (message.message.thread_ts) {
+                previous_txt = `<https://test.slack.com/archives/${event.channel}/p${parent_ts}?thread_ts=${message.message.thread_ts}&cid=${event.channel}|original > &gt; `
+            } else {
+                previous_txt = `<https://test.slack.com/archives/${event.channel}/p${previous_ts}|original > &gt; `
+            }
             /**
              * if the channnel is unprivate, link of original message shows same massage.
              * so only private channel want "message.text" for new text.
