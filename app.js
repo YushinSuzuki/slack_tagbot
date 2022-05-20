@@ -119,15 +119,27 @@ app.event('message', async({ event, client, logger, message }) => {
                 console.log('new_text = ', new_text);
 
                 /**
-                 * make a txt of the posted message
-                 * that is originally the parent message of the thread.
+                 * make a txt from the parent message of the thread
+                 * for find out the copied message.
                  */
                 console.log('replies.messages[0] = ', replies.messages[0].text);
 
                 //replies.messages[0] is a original parent message of a thread
                 const parent_ts = replies.messages[0].ts.replace('.', '');
                 var parent_text = `<https://test.slack.com/archives/${event_channell}/p${parent_ts}|original > &gt; `
-                parent_text += replies.messages[0].text;
+
+                //get a chennel information
+                const ch_info = await client.conversations.info({
+                    token: client.token,
+                    channel: message.channel,
+                });
+
+                console.log("message.conversations.info == ", ch_info);
+
+                if (ch_info.channel.is_private) {
+                    parent_text += replies.messages[0].text;
+
+                }
 
                 console.log('parent_text = ', parent_text);
 
@@ -248,19 +260,18 @@ app.event('message', async({ event, client, logger, message }) => {
                     console.log('copied_messages = ', copied_messages);
 
                     /**
-                     * make a txt from the edited message
-                     * for find out the original message.
+                     * make a txt from the previous_message
+                     * for find out the copied message.
                      */
                     const event_channell = event.channel;
                     const parent_ts = message.previous_message.ts.replace('.', '');
                     var parent_text = `<https://test.slack.com/archives/${event_channell}/p${parent_ts}|original > &gt; `
 
+                    //get a chennel information
                     const ch_info = await client.conversations.info({
                         token: client.token,
                         channel: message.channel,
                     });
-
-                    console.log("message.conversations.info == ", ch_info);
 
                     if (ch_info.channel.is_private) {
                         parent_text += message.previous_message.text;
