@@ -233,6 +233,19 @@ app.event('message', async({ event, client, logger, message }) => {
      */
     if (event.subtype == 'message_changed') {
         /**
+         * get a chennel information for private status.
+         */
+        try {
+            ch_info = await client.conversations.info({
+                token: client.token,
+                channel: message.channel,
+            });
+            logger.info('ch_info = ', ch_info);
+        } catch (error) {
+            console.error(error);
+        }
+
+        /**
          * get positions of cannhel tags from the message.
          */
         // const start_idx = replies.messages[0].text.indexOf("<#")
@@ -268,20 +281,9 @@ app.event('message', async({ event, client, logger, message }) => {
             }
 
             /**
-             * get a chennel information for private status.
              * if the channnel is unprivate, link of original message shows same massage.
              * so only private channel want "message.text" for new text.
              */
-            try {
-                ch_info = await client.conversations.info({
-                    token: client.token,
-                    channel: message.channel,
-                });
-                logger.info('ch_info = ', ch_info);
-            } catch (error) {
-                console.error(error);
-            }
-
             if (ch_info.channel.is_private) {
                 new_text += message.message.text;
             }
