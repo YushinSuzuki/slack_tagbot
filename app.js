@@ -220,7 +220,7 @@ app.event('message', async({ event, client, logger, message }) => {
             let start_idxs = [];
             let start_idx = [];
 
-            while ((start_idx = regexp_start.exec(messages.text)) !== null) {
+            while ((start_idx = regexp_start.exec(message.text)) !== null) {
                 start_idxs.push(start_idx);
             }
 
@@ -232,7 +232,7 @@ app.event('message', async({ event, client, logger, message }) => {
                 /**
                  * get channel IDs as times as the number of channel tags.
                  */
-                const ch_id = messages.text.substr(start_idxs[i].index + 2, 11);
+                const ch_id = message.text.substr(start_idxs[i].index + 2, 11);
                 console.log('ch_id = ', ch_id);
 
                 /**
