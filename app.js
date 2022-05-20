@@ -249,7 +249,6 @@ app.event('message', async({ event, client, logger, message }) => {
             } catch (error) {
                 console.error(error);
             }
-            console.log("248 is_private = ", ch_info.channel.is_private);
 
             /**
              * make a txt from the previous_message
@@ -270,11 +269,6 @@ app.event('message', async({ event, client, logger, message }) => {
              * make a message txt for the new posts.
              */
             var ts = message.message.ts.replace('.', '');
-
-            console.log("message.thread_ts = ", message.thread_ts);
-            console.log("message.message.thread_ts = ", message.message.thread_ts);
-
-            console.log("event.thread_ts = ", event.thread_ts);
 
             if (message.message.thread_ts) {
                 new_text = `<https://test.slack.com/archives/${event.channel}/p${ts}?thread_ts=${message.message.thread_ts}&cid=${event.channel}|original > > `
@@ -297,6 +291,8 @@ app.event('message', async({ event, client, logger, message }) => {
             const regexp_start = /<#/g;
             let start_idxs = [];
             let start_idx = [];
+
+            console.log("295 message.message.text = ", message.message.text);
 
             while ((start_idx = regexp_start.exec(message.message.text)) !== null) {
                 start_idxs.push(start_idx);
