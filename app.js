@@ -423,7 +423,7 @@ app.event('message', async({ event, client, logger, message }) => {
             /**
              * fine the copied message in the thread of channels
              */
-            let copied_replies;
+            var copied_replies;
             try {
                 copied_replies = await client.conversations.replies({
                     token: client.token,
@@ -431,7 +431,7 @@ app.event('message', async({ event, client, logger, message }) => {
                     ts: copied_message.thread_ts,
                     inclusive: true
                 });
-                logger.info('replies = ', copied_replies);
+                logger.info('copied_replies = ', copied_replies);
             } catch (error) {
                 console.error(error);
             }
@@ -449,6 +449,7 @@ app.event('message', async({ event, client, logger, message }) => {
             if (ch_info.channel.is_private) {
                 previous_th_txt += message.previous_message.text;
             }
+            console.log("copied_replies.messages.length = ", copied_replies.messages.length);
 
             let copied_thread_mes;
             for (const p in copied_replies.messages.length) {
