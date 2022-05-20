@@ -271,7 +271,7 @@ app.event('message', async({ event, client, logger, message }) => {
                      * make a message txt for the new posts.
                      */
                     const event_channell = event.channel;
-                    const ts = message.ts.replace('.', '');
+                    const ts = message.message.ts.replace('.', '');
                     const thread_ts = message.thread_ts;
                     var new_text = "";
 
