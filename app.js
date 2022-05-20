@@ -417,24 +417,24 @@ app.event('message', async({ event, client, logger, message }) => {
             /**
              * fine the copied message in the thread of channels
              */
-            let replies;
+            let copied_replies;
             try {
-                replies = await client.conversations.replies({
+                copied_replies = await client.conversations.replies({
                     token: client.token,
                     channel: event.channel,
                     ts: copied_message.thread_ts,
                     inclusive: true
                 });
-                logger.info('replies = ', replies);
+                logger.info('replies = ', copied_replies);
             } catch (error) {
                 console.error(error);
             }
 
             let copied_thread_mes;
 
-            for (const p in replies.messages.length) {
-                if (replies.messages[p].text == previous_txt) {
-                    copied_thread_mes = replies.messages[p];
+            for (const p in copied_replies.messages.length) {
+                if (copied_replies.messages[p].text == previous_txt) {
+                    copied_thread_mes = copied_replies.messages[p];
                 }
             }
 
