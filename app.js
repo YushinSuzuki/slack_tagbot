@@ -471,6 +471,7 @@ app.event('message', async({ event, client, logger, message }) => {
                     token: client.token,
                     channel: ch_id,
                     text: new_text,
+                    ts: copied_thread_mes.ts,
                     thread_ts: copied_thread_mes.thread_ts
                 });
                 logger.info('result = ', result);
