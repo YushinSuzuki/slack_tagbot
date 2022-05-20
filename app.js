@@ -260,7 +260,7 @@ app.event('message', async({ event, client, logger, message }) => {
             const previous_ts = message.previous_message.ts.replace('.', '');
             var previous_txt;
             if (message.message.thread_ts) {
-                previous_txt = `<https://test.slack.com/archives/${event.channel}/p${parent_ts}?thread_ts=${message.message.thread_ts}&cid=${event.channel}|original > &gt; `
+                previous_txt = `<https://test.slack.com/archives/${event.channel}/p${previous_ts}?thread_ts=${message.message.thread_ts}&cid=${event.channel}|original > &gt; `
             } else {
                 previous_txt = `<https://test.slack.com/archives/${event.channel}/p${previous_ts}|original > &gt; `
             }
