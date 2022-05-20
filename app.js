@@ -126,8 +126,7 @@ app.event('message', async({ event, client, logger, message }) => {
          */
         const event_channell = event.channel;
         const ts = message.ts.replace('.', '');
-        const thread_ts = message.thread_ts;
-        let new_text = `<https://test.slack.com/archives/${event_channell}/p${ts}?thread_ts=${thread_ts}&cid=${event_channell}|original > > `
+        let new_text = `<https://test.slack.com/archives/${event_channell}/p${ts}?thread_ts=${message.thread_ts}&cid=${event_channell}|original > > `
         if (ch_info.channel.is_private) {
             new_text += message.text;
         }
@@ -255,6 +254,10 @@ app.event('message', async({ event, client, logger, message }) => {
         const parent_ts = message.previous_message.ts.replace('.', '');
         var previous_txt = `<https://test.slack.com/archives/${event.channel}/p${parent_ts}|original > &gt; `
 
+        /**
+         * if the channnel is unprivate, link of original message shows same massage.
+         * so only private channel want "message.text" for new text.
+         */
         if (ch_info.channel.is_private) {
             previous_txt += message.previous_message.text;
         }
@@ -262,11 +265,10 @@ app.event('message', async({ event, client, logger, message }) => {
         /**
          * make a message txt for the new posts.
          */
-        const ts = message.message.ts.replace('.', '');
-        const thread_ts = message.thread_ts;
+        var ts = message.message.ts.replace('.', '');
 
         if (thread_ts) {
-            new_text = `<https://test.slack.com/archives/${event.channel}/p${ts}?thread_ts=${thread_ts}&cid=${event.channel}|original > > `
+            new_text = `<https://test.slack.com/archives/${event.channel}/p${ts}?thread_ts=${message.thread_ts}&cid=${event.channel}|original > > `
         } else {
             new_text = `<https://test.slack.com/archives/${event.channel}/p${ts}|original > > `
         }
@@ -308,8 +310,6 @@ app.event('message', async({ event, client, logger, message }) => {
                 token: client.token,
                 channel: ch_id
             });
-
-            console.log(copied_messages);
 
             /**
              * get the parent message of the thread from poted channels
@@ -432,14 +432,27 @@ app.event('message', async({ event, client, logger, message }) => {
                 console.error(error);
             }
 
-            let copied_thread_mes;
+            /**
+             * make a txt from the previous_message in the thread
+             * for find out the copied message.
+             */
+            const previous_th_txt = `<https://test.slack.com/archives/${event.channel}/p${ts}?thread_ts=${message.thread_ts}&cid=${event.channel}|original > > `
 
+            /**
+             * if the channnel is unprivate, link of original message shows same massage.
+             * so only private channel want "message.text" for new text.
+             */
+            if (ch_info.channel.is_private) {
+                previous_th_txt += message.previous_message.text;
+            }
+
+            let copied_thread_mes;
             for (const p in copied_replies.messages.length) {
-                if (copied_replies.messages[p].text == previous_txt) {
+                if (copied_replies.messages[p].text == previous_th_txt) {
                     copied_thread_mes = copied_replies.messages[p];
                 }
             }
-            console.log("previous_txt = ", previous_txt);
+            console.log("previous_txt = ", previous_th_txt);
 
             console.log("copied_thread_mes = ", copied_thread_mes);
             /**
