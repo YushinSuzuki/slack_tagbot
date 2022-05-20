@@ -287,7 +287,7 @@ app.event('message', async({ event, client, logger, message }) => {
                         token: client.token,
                         channel: ch_id,
                         text: message.message.text,
-                        thread_ts: copied_parent_message.ts,
+                        ts: copied_parent_message.ts,
                     });
 
                 } catch (error) {
