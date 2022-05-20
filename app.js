@@ -426,7 +426,7 @@ app.event('message', async({ event, client, logger, message }) => {
             try {
                 copied_replies = await client.conversations.replies({
                     token: client.token,
-                    channel: event.channel,
+                    channel: ch_id,
                     ts: copied_message.thread_ts,
                     inclusive: true
                 });
