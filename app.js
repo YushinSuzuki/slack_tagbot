@@ -260,14 +260,30 @@ app.event('message', async({ event, client, logger, message }) => {
 
                     console.log('copied_messages = ', copied_messages);
 
+
+                    //get a chennel information
+                    const ch_info = await client.conversations.info({
+                        token: client.token,
+                        channel: message.channel,
+                    });
+
                     /**
                      * make a message txt for the new posts.
                      */
                     const event_channell = event.channel;
                     const ts = message.ts.replace('.', '');
                     const thread_ts = message.thread_ts;
-                    var new_text = `<https://test.slack.com/archives/${event_channell}/p${ts}?thread_ts=${thread_ts}&cid=${event_channell}|original > > `
-                    new_text += message.message.text;
+                    var new_text = "";
+
+                    if (thread_ts) {
+                        new_text = `<https://test.slack.com/archives/${event_channell}/p${ts}?thread_ts=${thread_ts}&cid=${event_channell}|original > > `
+                    } else {
+                        new_text = `<https://test.slack.com/archives/${event_channell}/p${ts}|original > > `
+                    }
+
+                    if (ch_info.channel.is_private) {
+                        new_text += message.message.text;
+                    }
 
                     console.log('new_text = ', new_text);
 
@@ -277,12 +293,6 @@ app.event('message', async({ event, client, logger, message }) => {
                      */
                     const parent_ts = message.previous_message.ts.replace('.', '');
                     var parent_text = `<https://test.slack.com/archives/${event_channell}/p${parent_ts}|original > &gt; `
-
-                    //get a chennel information
-                    const ch_info = await client.conversations.info({
-                        token: client.token,
-                        channel: message.channel,
-                    });
 
                     if (ch_info.channel.is_private) {
                         parent_text += message.previous_message.text;
@@ -321,9 +331,6 @@ app.event('message', async({ event, client, logger, message }) => {
 
 
         }
-
-        console.log("event  ==  ", event);
-
 
     } catch (error) {
         logger.error(error);
