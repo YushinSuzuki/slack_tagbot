@@ -5,13 +5,14 @@ const app = new App({
     signingSecret: process.env.SLACK_SIGNING_SECRET
 });
 
+/**
+ * get a message event
+ */
 app.message('#', async({ message, event, client, logger }) => {
     try {
         const regexp_start = /<#/g;
         let start_idxs = [];
         let start_idx = [];
-
-        console.log("メッセージ！！！");
 
         while ((start_idx = regexp_start.exec(message.text)) !== null) {
             start_idxs.push(start_idx);
@@ -260,10 +261,20 @@ app.event('message', async({ event, client, logger, message }) => {
                     console.log('copied_messages = ', copied_messages);
 
                     /**
+                     * make a message txt for the new posts.
+                     */
+                    const event_channell = event.channel;
+                    const ts = message.ts.replace('.', '');
+                    const thread_ts = message.thread_ts;
+                    var new_text = `<https://test.slack.com/archives/${event_channell}/p${ts}?thread_ts=${thread_ts}&cid=${event_channell}|original > > `
+                    new_text += message.message.text;
+
+                    console.log('new_text = ', new_text);
+
+                    /**
                      * make a txt from the previous_message
                      * for find out the copied message.
                      */
-                    const event_channell = event.channel;
                     const parent_ts = message.previous_message.ts.replace('.', '');
                     var parent_text = `<https://test.slack.com/archives/${event_channell}/p${parent_ts}|original > &gt; `
 
@@ -297,7 +308,7 @@ app.event('message', async({ event, client, logger, message }) => {
                     const result = await client.chat.update({
                         token: client.token,
                         channel: ch_id,
-                        text: message.message.text,
+                        text: new_text,
                         ts: copied_parent_message.ts,
                     });
 
