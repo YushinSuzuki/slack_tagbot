@@ -224,7 +224,6 @@ app.event('message', async({ event, client, logger, message }) => {
 
     }
 
-    console.log(event);
     /**
      * If the message was edited,
      * overwrite the copied message on other channels
@@ -436,7 +435,7 @@ app.event('message', async({ event, client, logger, message }) => {
              * make a txt from the previous_message in the thread
              * for find out the copied message.
              */
-            const previous_th_txt = `<https://test.slack.com/archives/${event.channel}/p${ts}?thread_ts=${message.thread_ts}&cid=${event.channel}|original > > `
+            let previous_th_txt = `<https://test.slack.com/archives/${event.channel}/p${ts}?thread_ts=${message.thread_ts}&cid=${event.channel}|original > > `
 
             /**
              * if the channnel is unprivate, link of original message shows same massage.
