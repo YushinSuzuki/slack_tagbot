@@ -256,15 +256,14 @@ app.event('message', async({ event, client, logger, message }) => {
             /**
              * make a message txt for the new posts.
              */
-            const event_channell = event.channel;
             const ts = message.message.ts.replace('.', '');
             const thread_ts = message.thread_ts;
             var new_text = "";
 
             if (thread_ts) {
-                new_text = `<https://test.slack.com/archives/${event_channell}/p${ts}?thread_ts=${thread_ts}&cid=${event_channell}|original > > `
+                new_text = `<https://test.slack.com/archives/${event.channel}/p${ts}?thread_ts=${thread_ts}&cid=${event.channel}|original > > `
             } else {
-                new_text = `<https://test.slack.com/archives/${event_channell}/p${ts}|original > > `
+                new_text = `<https://test.slack.com/archives/${event.channel}/p${ts}|original > > `
             }
 
 
@@ -293,7 +292,7 @@ app.event('message', async({ event, client, logger, message }) => {
              * for find out the copied message.
              */
             const parent_ts = message.previous_message.ts.replace('.', '');
-            var previous_txt = `<https://test.slack.com/archives/${event_channell}/p${parent_ts}|original > &gt; `
+            var previous_txt = `<https://test.slack.com/archives/${event.channel}/p${parent_ts}|original > &gt; `
 
             if (ch_info.channel.is_private) {
                 previous_txt += message.previous_message.text;
@@ -363,12 +362,12 @@ app.event('message', async({ event, client, logger, message }) => {
          * for find out the copied message.
          */
         //replies.messages[0] is a original parent message of a thread
-        // const parent_ts = replies.messages[0].ts.replace('.', '');
-        // let parent_text = `<https://test.slack.com/archives/${event_channell}/p${parent_ts}|original > &gt; `
+        const parent_ts = replies.messages[0].ts.replace('.', '');
+        let parent_text = `<https://test.slack.com/archives/${event.channel}/p${parent_ts}|original > &gt; `
 
-        // if (ch_info.channel.is_private) {
-        //     parent_text += replies.messages[0].text;
-        // }
+        if (ch_info.channel.is_private) {
+            parent_text += replies.messages[0].text;
+        }
 
         /**
          * get positions of cannhel tags from the parent message.
@@ -410,8 +409,31 @@ app.event('message', async({ event, client, logger, message }) => {
              */
             let copied_message;
             for (const idx in copied_messages.messages) {
-                if (copied_messages.messages[idx].text == previous_txt) {
+                if (copied_messages.messages[idx].text == parent_text) {
                     copied_message = copied_messages.messages[idx];
+                }
+            }
+            /**
+             * fine the copied message in the thread of channels
+             */
+            let replies;
+            try {
+                replies = await client.conversations.replies({
+                    token: client.token,
+                    channel: event.channel,
+                    ts: copied_message.thread_ts,
+                    inclusive: true
+                });
+                logger.info('replies = ', replies);
+            } catch (error) {
+                console.error(error);
+            }
+
+            let copied_thread_mes;
+
+            for (const p in replies.messages.length) {
+                if (replies.messages[p].text == previous_txt) {
+                    copied_thread_mes = replies.messages[p];
                 }
             }
 
@@ -423,7 +445,7 @@ app.event('message', async({ event, client, logger, message }) => {
                     token: client.token,
                     channel: ch_id,
                     text: new_text,
-                    thread_ts: copied_message.ts
+                    thread_ts: copied_thread_mes.ts
                 });
                 logger.info('result = ', result);
             } catch (error) {
