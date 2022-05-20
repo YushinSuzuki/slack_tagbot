@@ -341,11 +341,11 @@ app.event('message', async({ event, client, logger, message }) => {
      * if the message in a thread,
      * it's gonna post to copied message thread.
      */
+    var replies;
     if (message.message.thread_ts) {
         /**
          * get messages in a thread.
          */
-        var replies;
         try {
             replies = await client.conversations.replies({
                 token: client.token,
