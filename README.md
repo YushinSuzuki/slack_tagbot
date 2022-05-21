@@ -51,7 +51,7 @@ This is an example of how you run slack_tagbot on your Heroku server.
   
 ## Usage
 1. integration this bot to a channel.
-2. post a comment with hash tags of a channels on a main channel.
+2. post a comment with hash tags of a channels.
 
 ![tagbot](https://user-images.githubusercontent.com/62285965/169650961-40f96802-9693-4dcf-9b6c-0b66f7e075ae.png)
 
