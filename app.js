@@ -72,6 +72,9 @@ app.message('#', async({ message, event, client, logger }) => {
                 logger.error('error = ', error);
             }
 
+            /**
+             * post the message to the channel.
+             */
             try {
                 const result = await client.chat.postMessage({
                     token: client.token,
@@ -250,9 +253,6 @@ app.event('message', async({ event, client, logger, message }) => {
                 console.error(error);
             }
 
-            console.log("253 ch_info.channel.is_private = ", ch_info.channel.is_private);
-
-
             /**
              * make a txt from the previous_message
              * for find out the copied message.
@@ -271,7 +271,6 @@ app.event('message', async({ event, client, logger, message }) => {
             if (ch_info.channel.is_private) {
                 previous_txt += message.previous_message.text;
             }
-            console.log("267 previous_txt = ", previous_txt);
 
             /**
              * make a message txt for the new posts.
@@ -335,7 +334,6 @@ app.event('message', async({ event, client, logger, message }) => {
                         copied_message = copied_messages.messages[idx];
                     }
                 }
-                console.log("331 copied_message = ", copied_message);
 
                 /**
                  * post the message to the thread of the posted channel.
@@ -352,8 +350,6 @@ app.event('message', async({ event, client, logger, message }) => {
                     console.error(error);
                 }
             }
-
-            console.log("345 is_private = ", ch_info.channel.is_private);
 
             /**
              * if the message in a thread,
@@ -384,12 +380,9 @@ app.event('message', async({ event, client, logger, message }) => {
                 const parent_ts = replies.messages[0].ts.replace('.', '');
                 var parent_text = `<https://test.slack.com/archives/${event.channel}/p${parent_ts}|original > &gt; `
 
-                console.log("376 is_private = ", ch_info.channel.is_private);
-
                 if (ch_info.channel.is_private) {
                     parent_text += replies.messages[0].text;
                 }
-                console.log("381 is_private = ", ch_info.channel.is_private);
 
                 /**
                  * get positions of cannhel tags from the parent message.
@@ -425,7 +418,6 @@ app.event('message', async({ event, client, logger, message }) => {
                     } catch (error) {
                         console.error(error);
                     }
-                    console.log("parent_text = ", parent_text);
 
                     /**
                      * get the parent message of the thread from poted channels
@@ -436,7 +428,6 @@ app.event('message', async({ event, client, logger, message }) => {
                             copied_message = copied_messages.messages[idx];
                         }
                     }
-                    console.log("copied_message = ", copied_message);
 
                     /**
                      * fine the copied message in the thread of channels
