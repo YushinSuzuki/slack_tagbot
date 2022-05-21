@@ -19,7 +19,7 @@ https://slack.dev/bolt-js/deployments/heroku
 [Required scopes]
 >OAuth & Permissions
 >Bot tokens
-  chat:write (for chat.postMessage)
+  chat:write (for chat.postMessage, chat.update)
   users.profile:read (for users.profile.get)
   channels:history (for conversations.replies)
   channels:read(for conversations.info)
@@ -29,7 +29,7 @@ https://slack.dev/bolt-js/deployments/heroku
   mpim:history(for conversations.info)
   
 >User tokens
-  chat:write(for chat.postMessage)
+  chat:write(for chat.postMessage, chat.update)
   users.profile:read(for users.profile.get)
   channels:history (for conversations.replies)
   channels:read(for conversations.info)
