@@ -1,3 +1,12 @@
+/*!
+ * app.js stable v1.0.0
+ *
+ * Copyright (c) 2022 suzukiyushin
+ *
+ * Released under the MIT license.
+ * see https://opensource.org/licenses/MIT
+ */
+
 const { App } = require('@slack/bolt');
 
 const app = new App({
