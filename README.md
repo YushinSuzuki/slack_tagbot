@@ -37,3 +37,9 @@ https://slack.dev/bolt-js/deployments/heroku
   groups:read(for conversations.info)
   im:history(for conversations.info)
   mpim:history(for conversations.info)
+  
+ 
+ [usage]
+ 1: integration this bot to a channel.
+ 2: post a comment with hash tag of a channel.
+
