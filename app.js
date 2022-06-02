@@ -537,7 +537,7 @@ app.event('message', async({ event, client, logger, message }) => {
 
 
 
-    receiver.router.get('/slack/install', async(_req, res) => {
+    app.receiver.router.get('/slack/install', async(_req, res) => {
         console.log("try = ", _req);
 
         try {
