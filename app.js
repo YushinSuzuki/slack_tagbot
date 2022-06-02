@@ -20,18 +20,18 @@ const app = new App({
     clientSecret: process.env.SLACK_CLIENT_SECRET,
     stateSecret: 'my-state-secret',
     scopes: ['commands', 'chat:write'],
-    installationStore: {
-        storeInstallation: async installation => {
-            // TODO: 実際のデータベースに保存するために、ここのコードを変更
-            token_database[installation.team.id] = installation;
-            return Promise.resolve();
-        },
-        fetchInstallation: async installQuery => {
-            // TODO: 実際のデータベースから取得するために、ここのコードを変更
-            const installation = token_database[installQuery.teamId];
-            return Promise.resolve(installation);
-        },
-    },
+    // installationStore: {
+    //     storeInstallation: async installation => {
+    //         // TODO: 実際のデータベースに保存するために、ここのコードを変更
+    //         token_database[installation.team.id] = installation;
+    //         return Promise.resolve();
+    //     },
+    //     fetchInstallation: async installQuery => {
+    //         // TODO: 実際のデータベースから取得するために、ここのコードを変更
+    //         const installation = token_database[installQuery.teamId];
+    //         return Promise.resolve(installation);
+    //     },
+    // },
 });
 
 /**
