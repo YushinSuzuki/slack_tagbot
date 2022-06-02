@@ -38,7 +38,7 @@ const app = new App({
 });
 
 
-receiver.router.get('/slack/user_install', async(_req, res) => {
+receiver.router.get('/slack/install', async(_req, res) => {
     try {
         // feel free to modify the scopes
         const url = await receiver.installer.generateInstallUrl({
