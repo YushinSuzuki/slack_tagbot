@@ -105,29 +105,48 @@ app.message('#', async({ message, event, client, logger }) => {
 });
 
 
+
+
+/**
+ * mute the posted channel.
+ */
+import * as https from "https";
+
 app.message('test', async({ message, event, client, logger }) => {
 
+    logger.info('test muted!!! ', message.channel);
 
-    logger.info('test muted!!!');
 
-    /**
-     * mute the posted channel.
-     */
+    var http = require('http');
+
     var options = {
-        url: 'https://slack.com/api/users.prefs.set',
-        method: 'POST'
-    }
+        hostname: 'https://slack.com/api/users.prefs.set',
+        method: 'POST',
+        headers: {
+            'name': 'muted_channels',
+            'value': message.channel
+        }
+    };
 
-    request(options, function(error, response, body) {
-        logger.info('try muted!!!');
+    var req = http.request(options, function(res) {
 
-        console.log('body = ', body);
-        console.log('error = ', error);
+        var body = '';
+        res.setEncoding('utf8');
 
-        console.log('response = ', response);
+        res.on('data', function(chunk) {
+            body += chunk;
+        });
 
+        console.log(res.statusCode);
+        console.log(res.headers);
 
-    })
+        res.on('end', function() {
+            console.log(JSON.parse(body))
+        });
+
+    });
+
+    req.end();
 
 });
 
