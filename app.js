@@ -7,7 +7,7 @@
  * see https://opensource.org/licenses/MIT
  */
 
-const { App } = require('@slack/bolt');
+const { App, ExpressReceiver } = require('@slack/bolt');
 
 // const app = new App({
 //     token: process.env.SLACK_BOT_TOKEN,
