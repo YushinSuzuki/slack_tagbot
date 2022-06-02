@@ -119,7 +119,8 @@ app.message('test', async({ message, event, client, logger }) => {
     var http = require('http');
 
     var options = {
-        hostname: 'https://slack.com/api/users.prefs.set',
+        hostname: 'https://slack.com',
+        path: '/api/users.prefs.set',
         method: 'POST',
         headers: {
             'name': 'muted_channels',
