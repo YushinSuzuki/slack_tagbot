@@ -38,6 +38,19 @@ const app = new App({
 });
 
 
+receiver.router.get('/slack/install', async(_req, res) => {
+    try {
+        // feel free to modify the scopes
+        const url = await receiver.installer.generateInstallUrl({
+            scopes: ['chat:write', 'users.profile:read', 'channels:history', 'channels:read', 'groups:history', 'groups:read', 'im:history', 'mpim:history'],
+            userScopes: ['chat:write', 'users.profile:read', 'channels:history', 'channels:read', 'groups:history', 'groups:read', 'im:history', 'mpim:history'],
+        });
+
+        res.send(helpers.buildSlackUrl(url || ''));
+    } catch (error) {
+        console.log(error);
+    }
+});
 
 const buildSlackUrl = (url) => {
     `<a href=${url}><img alt=""Add to Slack"" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x" /></a>`;
@@ -537,20 +550,6 @@ app.event('message', async({ event, client, logger, message }) => {
 (async() => {
     // Start your app
     await app.start(process.env.PORT || 3000);
-
-
-    try {
-        // feel free to modify the scopes
-        const url = await receiver.installer.generateInstallUrl({
-            scopes: ['chat:write', 'users.profile:read', 'channels:history', 'channels:read', 'groups:history', 'groups:read', 'im:history', 'mpim:history'],
-            userScopes: ['chat:write', 'users.profile:read', 'channels:history', 'channels:read', 'groups:history', 'groups:read', 'im:history', 'mpim:history'],
-        });
-
-        res.send(helpers.buildSlackUrl(url || ''));
-    } catch (error) {
-        console.log(error);
-    }
-
 
     console.log('⚡️ Bolt app is running!');
 })();
