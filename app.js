@@ -14,25 +14,47 @@ const { App } = require('@slack/bolt');
 //     signingSecret: process.env.SLACK_SIGNING_SECRET
 // });
 
-const app = new App({
+const receiver = new ExpressReceiver({
     signingSecret: process.env.SLACK_SIGNING_SECRET,
     clientId: process.env.SLACK_CLIENT_ID,
     clientSecret: process.env.SLACK_CLIENT_SECRET,
     stateSecret: 'my-state-secret',
     scopes: ['commands', 'chat:write'],
-    // installationStore: {
-    //     storeInstallation: async installation => {
-    //         // TODO: 実際のデータベースに保存するために、ここのコードを変更
-    //         token_database[installation.team.id] = installation;
-    //         return Promise.resolve();
-    //     },
-    //     fetchInstallation: async installQuery => {
-    //         // TODO: 実際のデータベースから取得するために、ここのコードを変更
-    //         const installation = token_database[installQuery.teamId];
-    //         return Promise.resolve(installation);
-    //     },
-    // },
+    installationStore: {
+        storeInstallation: async installation => {
+            // TODO: 実際のデータベースに保存するために、ここのコードを変更
+            token_database[installation.team.id] = installation;
+            return Promise.resolve();
+        },
+        fetchInstallation: async installQuery => {
+            // TODO: 実際のデータベースから取得するために、ここのコードを変更
+            const installation = token_database[installQuery.teamId];
+            return installation;
+        },
+    },
 });
+const app = new App({
+    receiver,
+});
+
+
+receiver.router.get('/slack/user_install', async(_req, res) => {
+    try {
+        // feel free to modify the scopes
+        const url = await receiver.installer ? .generateInstallUrl({
+            scopes: ['chat:write', 'users.profile:read', 'channels:history', 'channels:read', 'groups:history', 'groups:read', 'im:history', 'mpim:history'],
+            userScopes: ['chat:write', 'users.profile:read', 'channels:history', 'channels:read', 'groups:history', 'groups:read', 'im:history', 'mpim:history'],
+        });
+
+        res.send(helpers.buildSlackUrl(url || ''));
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+const buildSlackUrl = (url) =>
+    `<a href=${url}><img alt=""Add to Slack"" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x" /></a>`;
+}
 
 /**
  * get a message event contains cannhel tags
