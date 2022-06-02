@@ -115,8 +115,7 @@ app.message('test', async({ message, event, client, logger }) => {
 
     logger.info('test muted!!! ', message.channel);
 
-
-    var http = require('http');
+    const https = require('https');
 
     var options = {
         hostname: 'https://slack.com',
@@ -128,7 +127,7 @@ app.message('test', async({ message, event, client, logger }) => {
         }
     };
 
-    var req = http.request(options, function(res) {
+    var req = https.request(options, function(res) {
 
         var body = '';
         res.setEncoding('utf8');
