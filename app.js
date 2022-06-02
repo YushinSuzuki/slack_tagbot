@@ -39,12 +39,15 @@ const app = new App({
 
 
 receiver.router.get('/slack/install', async(_req, res) => {
+    console.log("try = ", _req);
+
     try {
         // feel free to modify the scopes
         const url = await receiver.installer.generateInstallUrl({
             scopes: ['chat:write', 'users.profile:read', 'channels:history', 'channels:read', 'groups:history', 'groups:read', 'im:history', 'mpim:history'],
             userScopes: ['chat:write', 'users.profile:read', 'channels:history', 'channels:read', 'groups:history', 'groups:read', 'im:history', 'mpim:history'],
         });
+        console.log("res = ", res);
 
         res.send(helpers.buildSlackUrl(url || ''));
     } catch (error) {
