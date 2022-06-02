@@ -137,8 +137,8 @@ app.message('test', async({ message, event, client, logger }) => {
             body += chunk;
         });
 
-        console.log(res.statusCode);
-        console.log(res.headers);
+        console.log("statusCode!! = ", res.statusCode);
+        console.log("headers!! = ", res.headers);
 
         res.on('end', function() {
             console.log(JSON.parse(body))
