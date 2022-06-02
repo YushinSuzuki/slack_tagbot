@@ -111,43 +111,43 @@ app.message('#', async({ message, event, client, logger }) => {
  * mute the posted channel.
  */
 
-app.message('test', async({ message, event, client, logger }) => {
+// app.message('test2', async({ message, event, client, logger }) => {
 
-    logger.info('test muted!!! ', message.channel);
+//     logger.info('test muted!!! ', message.channel);
 
-    const https = require('https');
+//     const https = require('https');
 
-    var options = {
-        hostname: 'https://slack.com',
-        path: '/api/users.prefs.set',
-        method: 'POST',
-        headers: {
-            'name': 'muted_channels',
-            'value': message.channel
-        }
-    };
+//     var options = {
+//         hostname: 'https://slack.com',
+//         path: '/api/users.prefs.set',
+//         method: 'POST',
+//         headers: {
+//             'name': 'muted_channels',
+//             'value': message.channel
+//         }
+//     };
 
-    var req = https.request(options, function(res) {
+//     var req = https.request(options, function(res) {
 
-        var body = '';
-        res.setEncoding('utf8');
+//         var body = '';
+//         res.setEncoding('utf8');
 
-        res.on('data', function(chunk) {
-            body += chunk;
-        });
+//         res.on('data', function(chunk) {
+//             body += chunk;
+//         });
 
-        console.log("statusCode!! = ", res.statusCode);
-        console.log("headers!! = ", res.headers);
+//         console.log("statusCode!! = ", res.statusCode);
+//         console.log("headers!! = ", res.headers);
 
-        res.on('end', function() {
-            console.log(JSON.parse(body))
-        });
+//         res.on('end', function() {
+//             console.log(JSON.parse(body))
+//         });
 
-    });
+//     });
 
-    req.end();
+//     req.end();
 
-});
+// });
 
 // func (api *Client) MuteChat(channelID string) (*UserPrefsCarrier, error) {
 // 	prefs, err := api.GetUserPrefs()
