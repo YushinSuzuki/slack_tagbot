@@ -19,7 +19,7 @@ const receiver = new ExpressReceiver({
     clientId: process.env.SLACK_CLIENT_ID,
     clientSecret: process.env.SLACK_CLIENT_SECRET,
     stateSecret: 'my-state-secret',
-    scopes: ['commands', 'chat:write'],
+    scopes: ['chat:write'],
     // installationStore: {
     //     storeInstallation: async installation => {
     //         // TODO: 実際のデータベースに保存するために、ここのコードを変更
@@ -38,10 +38,6 @@ const app = new App({
 });
 
 
-
-const buildSlackUrl = (url) => {
-    `<a href=${url}><img alt=""Add to Slack"" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x" /></a>`;
-}
 
 /**
  * get a message event contains cannhel tags
@@ -558,6 +554,9 @@ app.event('message', async({ event, client, logger, message }) => {
         }
     });
 
+    const buildSlackUrl = (url) => {
+        `<a href=${url}><img alt=""Add to Slack"" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x" /></a>`;
+    }
 
     console.log('⚡️ Bolt app is running!');
 })();
