@@ -110,7 +110,6 @@ app.message('#', async({ message, event, client, logger }) => {
 /**
  * mute the posted channel.
  */
-import * as https from "https";
 
 app.message('test', async({ message, event, client, logger }) => {
 
