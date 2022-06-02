@@ -96,9 +96,50 @@ app.message('#', async({ message, event, client, logger }) => {
             } catch (error) {
                 logger.error('error = ', error);
             }
+
+            /**
+             * mute the posted channel.
+             */
+            try {
+                const result = await client.users.prefs.set({
+                    token: client.token,
+                    prefs: { "muted_channels": "C03GBJ501B7" }
+                });
+                logger.info('result = ', result);
+            } catch (error) {
+                logger.error('error = ', error);
+            }
+
+
+
         }
     }
 });
+
+
+// func (api *Client) MuteChat(channelID string) (*UserPrefsCarrier, error) {
+// 	prefs, err := api.GetUserPrefs()
+// 	if err != nil {
+// 		return nil, err
+// 	}
+// 	chnls := strings.Split(prefs.UserPrefs.MutedChannels, ",")
+// 	for _, chn := range chnls {
+// 		if chn == channelID {
+// 			return nil, nil // noop
+// 		}
+// 	}
+// 	newChnls := prefs.UserPrefs.MutedChannels + "," + channelID
+// 	values := url.Values{"token": {api.token}, "muted_channels": {newChnls}, "reason": {"update-muted-channels"}}
+// 	response := UserPrefsCarrier{}
+
+// 	err = api.postMethod(context.Background(), "users.prefs.set", values, &response)
+// 	if err != nil {
+// 		return nil, err
+// 	}
+
+// 	return &response, response.Err()
+// }
+
 
 /**
  * get a message event
