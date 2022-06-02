@@ -113,18 +113,21 @@ app.message('test', async({ message, event, client, logger }) => {
     /**
      * mute the posted channel.
      */
-    try {
-
-        logger.info('try muted!!!');
-        const result = await client.users.prefs.set({
-            token: client.token,
-            prefs: { "muted_channels": "C03GBJ501B7" }
-        });
-        logger.info('muted = ', result);
-    } catch (error) {
-        logger.error('error muted = ', error);
+    var options = {
+        url: 'https://slack.com/api/users.prefs.set',
+        method: 'POST'
     }
 
+    request(options, function(error, response, body) {
+        logger.info('try muted!!!');
+
+        console.log('body = ', body);
+        console.log('error = ', error);
+
+        console.log('response = ', response);
+
+
+    })
 
 });
 
