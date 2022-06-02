@@ -9,12 +9,30 @@
 
 const { App } = require('@slack/bolt');
 
+// const app = new App({
+//     token: process.env.SLACK_BOT_TOKEN,
+//     signingSecret: process.env.SLACK_SIGNING_SECRET
+// });
+
 const app = new App({
-    token: process.env.SLACK_BOT_TOKEN,
-    signingSecret: process.env.SLACK_SIGNING_SECRET
+    signingSecret: process.env.SLACK_SIGNING_SECRET,
+    clientId: process.env.SLACK_CLIENT_ID,
+    clientSecret: process.env.SLACK_CLIENT_SECRET,
+    stateSecret: 'my-state-secret',
+    scopes: ['commands', 'chat:write'],
+    installationStore: {
+        storeInstallation: async installation => {
+            // TODO: 実際のデータベースに保存するために、ここのコードを変更
+            token_database[installation.team.id] = installation;
+            return Promise.resolve();
+        },
+        fetchInstallation: async installQuery => {
+            // TODO: 実際のデータベースから取得するために、ここのコードを変更
+            const installation = token_database[installQuery.teamId];
+            return Promise.resolve(installation);
+        },
+    },
 });
-
-
 
 /**
  * get a message event contains cannhel tags
