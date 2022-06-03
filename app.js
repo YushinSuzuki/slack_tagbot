@@ -19,9 +19,9 @@ const app = new App({
     clientId: process.env.SLACK_CLIENT_ID,
     clientSecret: process.env.SLACK_CLIENT_SECRET,
     stateSecret: 'XXXXXXXXX',
+    scopes: ['chat:write', 'users.profile:read', 'channels:history', 'channels:read', 'groups:history', 'groups:read', 'im:history', 'mpim:history'],
 
     installerOptions: [{
-        scopes: ['chat:write', 'users.profile:read', 'channels:history', 'channels:read', 'groups:history', 'groups:read', 'im:history', 'mpim:history'],
         userScopes: ['chat:write', 'users.profile:read', 'channels:history', 'channels:read', 'groups:history', 'groups:read', 'im:history', 'mpim:history'],
     }],
     logLevel: LogLevel.DEBUG
