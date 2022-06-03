@@ -26,58 +26,6 @@ const app = new App({
     }],
 })
 
-// const receiver = new ExpressReceiver({
-//     signingSecret: process.env.SLACK_SIGNING_SECRET,
-//     clientId: process.env.SLACK_CLIENT_ID,
-//     clientSecret: process.env.SLACK_CLIENT_SECRET,
-//     stateSecret: 'my-state-secret',
-//     scopes: ['chat:write'],
-//     // customRoutes: [{
-//     //     path: '/slack/install',
-//     //     method: ['GET'],
-//     //     handler: (req, res) => {
-//     //         res.writeHead(200);
-//     //         res.end('Health check information displayed here!');
-//     //     },
-//     // }, ],
-
-//     // installationStore: {
-//     //     storeInstallation: async installation => {
-//     //         // TODO: 実際のデータベースに保存するために、ここのコードを変更
-//     //         token_database[installation.team.id] = installation;
-//     //         return Promise.resolve();
-//     //     },
-//     //     fetchInstallation: async installQuery => {
-//     //         // TODO: 実際のデータベースから取得するために、ここのコードを変更
-//     //         const installation = token_database[installQuery.teamId];
-//     //         return installation;
-//     //     },
-//     // },
-// });
-// const app = new App({
-//     receiver,
-// });
-
-// receiver.router.post('/slack/install', async(_req, res) => {
-//     try {
-//         // feel free to modify the scopes
-//         const url = await receiver.installer.generateInstallUrl({
-//             scopes: ['chat:write', 'users.profile:read', 'channels:history', 'channels:read', 'groups:history', 'groups:read', 'im:history', 'mpim:history'],
-//             userScopes: ['chat:write', 'users.profile:read', 'channels:history', 'channels:read', 'groups:history', 'groups:read', 'im:history', 'mpim:history'],
-//         });
-
-//         res.send(`<a href=${url}><img alt=""Add to Slack"" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x" /></a>`);
-//     } catch (error) {
-//         console.log(error);
-//     }
-// });
-
-
-// receiver.router.post('/slack/oauth_redirect', async(req, res) => {
-//     console.log("try = ", _req);
-//     await receiver.installer.handleCallback(res, req);
-// });
-
 
 /**
  * get a message event contains cannhel tags
