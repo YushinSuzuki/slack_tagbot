@@ -20,6 +20,15 @@ const receiver = new ExpressReceiver({
     clientSecret: process.env.SLACK_CLIENT_SECRET,
     stateSecret: 'my-state-secret',
     scopes: ['chat:write'],
+    customRoutes: [{
+        path: '/slack/install2',
+        method: ['GET'],
+        handler: (req, res) => {
+            res.writeHead(200);
+            res.end('Health check information displayed here!');
+        },
+    }, ],
+
     // installationStore: {
     //     storeInstallation: async installation => {
     //         // TODO: 実際のデータベースに保存するために、ここのコードを変更
@@ -37,7 +46,7 @@ const app = new App({
     receiver,
 });
 
-app.receiver.router.get('https://slack-tagbot-servver.herokuapp.com/slack/install', async(_req, res) => {
+app.receiver.router.get('/slack/install', async(_req, res) => {
     console.log("try = ", _req);
 
     try {
