@@ -64,16 +64,6 @@ app.receiver.router.get('/slack/install2', async(_req, res) => {
 });
 
 
-app.receiver.router.get('/slack/oauth_redirect', async(req, res) => {
-    await installer.handleCallback(req, res);
-});
-
-(async() => {
-    await app.start(process.env.PORT || 3000);
-})();
-
-
-
 /**
  * get a message event contains cannhel tags
  */
