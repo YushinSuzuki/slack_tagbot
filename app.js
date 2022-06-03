@@ -65,7 +65,7 @@ app.receiver.router.get('/slack/install', async(_req, res) => {
 
 
 app.receiver.router.get('/slack/oauth_redirect', async(req, res) => {
-    await receiver.installer.handleCallback(req, res);
+    await receiver.installer.handleCallback(res, req);
 });
 
 
