@@ -21,7 +21,7 @@ const receiver = new ExpressReceiver({
     stateSecret: 'my-state-secret',
     scopes: ['chat:write'],
     customRoutes: [{
-        path: '/slack/install2',
+        path: '/slack/install',
         method: ['GET'],
         handler: (req, res) => {
             res.writeHead(200);
@@ -46,7 +46,7 @@ const app = new App({
     receiver,
 });
 
-app.receiver.router.get('/slack/install2', async(_req, res) => {
+app.receiver.router.get('/slack/install', async(_req, res) => {
     console.log("try = ", _req);
 
     try {
