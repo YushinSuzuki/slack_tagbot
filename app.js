@@ -46,7 +46,7 @@ const app = new App({
     receiver,
 });
 
-app.receiver.router.get('/slack/2', async(_req, res) => {
+app.receiver.router.get('/slack/install2', async(_req, res) => {
     console.log("try = ", _req);
 
     try {
