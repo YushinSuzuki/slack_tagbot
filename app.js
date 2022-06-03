@@ -46,7 +46,7 @@ const app = new App({
     receiver,
 });
 
-app.receiver.router.post('/slack/install', async(_req, res) => {
+receiver.router.post('/slack/install', async(_req, res) => {
     try {
         // feel free to modify the scopes
         const url = await receiver.installer.generateInstallUrl({
@@ -61,7 +61,7 @@ app.receiver.router.post('/slack/install', async(_req, res) => {
 });
 
 
-app.receiver.router.post('/slack/oauth_redirect', async(req, res) => {
+receiver.router.post('/slack/oauth_redirect', async(req, res) => {
     console.log("try = ", _req);
     await receiver.installer.handleCallback(res, req);
 });
