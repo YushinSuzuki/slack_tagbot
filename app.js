@@ -57,15 +57,11 @@ app.receiver.router.get('/slack/install2', async(_req, res) => {
         });
         console.log("res = ", res);
 
-        res.send(buildSlackUrl(url));
+        res.send(`<a href=${url}><img alt=""Add to Slack"" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x" /></a>`);
     } catch (error) {
         console.log(error);
     }
 });
-
-const buildSlackUrl = (url) => {
-    `<a href=${url}><img alt=""Add to Slack"" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x" /></a>`;
-}
 
 
 /**
