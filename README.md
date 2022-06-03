@@ -27,6 +27,7 @@ This is an example of how you run slack_tagbot on your Heroku server.
 * OAuth & Permissions > Bot tokens
   ```sh
   chat:write (for chat.postMessage, chat.update, etc.)
+  chat:write.public (for chat.postMessage, chat.update, etc.)
   users.profile:read (for users.profile.get, etc.)
   channels:history (for conversations.replies etc.)
   channels:read(for conversations.info, etc.)
