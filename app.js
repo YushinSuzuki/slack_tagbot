@@ -37,7 +37,7 @@ const app = new App({
     receiver,
 });
 
-app.receiver.router.get('/slack/install', async(_req, res) => {
+app.receiver.router.get('https://slack-tagbot-servver.herokuapp.com/slack/install', async(_req, res) => {
     console.log("try = ", _req);
 
     try {
