@@ -20,14 +20,14 @@ const receiver = new ExpressReceiver({
     clientSecret: process.env.SLACK_CLIENT_SECRET,
     stateSecret: 'my-state-secret',
     scopes: ['chat:write'],
-    customRoutes: [{
-        path: '/slack/install',
-        method: ['GET'],
-        handler: (req, res) => {
-            res.writeHead(200);
-            res.end('Health check information displayed here!');
-        },
-    }, ],
+    // customRoutes: [{
+    //     path: '/slack/install',
+    //     method: ['GET'],
+    //     handler: (req, res) => {
+    //         res.writeHead(200);
+    //         res.end('Health check information displayed here!');
+    //     },
+    // }, ],
 
     // installationStore: {
     //     storeInstallation: async installation => {
@@ -46,7 +46,7 @@ const app = new App({
     receiver,
 });
 
-app.receiver.router.get('/slack/install', async(_req, res) => {
+app.receiver.router.post('/slack/install', async(_req, res) => {
     try {
         // feel free to modify the scopes
         const url = await receiver.installer.generateInstallUrl({
@@ -61,7 +61,7 @@ app.receiver.router.get('/slack/install', async(_req, res) => {
 });
 
 
-app.receiver.router.get('/slack/oauth_redirect', async(req, res) => {
+app.receiver.router.post('/slack/oauth_redirect', async(req, res) => {
     console.log("try = ", _req);
     await receiver.installer.handleCallback(res, req);
 });
