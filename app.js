@@ -57,7 +57,7 @@ app.receiver.router.get('/slack/install2', async(_req, res) => {
         });
         console.log("res = ", res);
 
-        res.send(helpers.buildSlackUrl(url || ''));
+        res.send(buildSlackUrl(url || ''));
     } catch (error) {
         console.log(error);
     }
