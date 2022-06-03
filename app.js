@@ -68,9 +68,6 @@ app.receiver.router.get('/slack/install', async(_req, res) => {
 //     await receiver.installer.handleCallback(req, res);
 // });
 
-(async() => {
-    await app.start(process.env.PORT || 3000);
-})();
 
 /**
  * get a message event contains cannhel tags
