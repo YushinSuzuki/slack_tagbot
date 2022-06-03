@@ -18,13 +18,12 @@ const app = new App({
     signingSecret: process.env.SLACK_SIGNING_SECRET,
     clientId: process.env.SLACK_CLIENT_ID,
     clientSecret: process.env.SLACK_CLIENT_SECRET,
-    stateSecret: 'XXXXXXXXX',
+    stateSecret: 'my-state-secret',
     scopes: ['chat:write', 'users.profile:read', 'channels:history', 'channels:read', 'groups:history', 'groups:read', 'im:history', 'mpim:history'],
 
     installerOptions: [{
         userScopes: ['chat:write', 'users.profile:read', 'channels:history', 'channels:read', 'groups:history', 'groups:read', 'im:history', 'mpim:history'],
     }],
-    logLevel: LogLevel.DEBUG
 })
 
 // const receiver = new ExpressReceiver({
